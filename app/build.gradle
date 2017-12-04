@@ -32,7 +32,7 @@ def static getDate() {
 }
 
 def computeVersionName(label) {
-    return "2.6.${android.defaultConfig.versionCode}-${label}-${date}"
+    return "1.0.0.w2.6.206-${label}-${date}"
 }
 
 final JavaVersion JAVA_VERSION = JavaVersion.VERSION_1_8
@@ -52,10 +52,10 @@ android {
     }
 
     defaultConfig {
-        applicationId 'org.wikipedia'
+        applicationId 'org.engelkaldir.unblockerfor'
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 206
+        versionCode 100
         testApplicationId 'org.wikipedia.test'
         testInstrumentationRunner 'org.wikipedia.test.AndroidTestRunner'
         vectorDrawables.useSupportLibrary = true
@@ -100,12 +100,16 @@ android {
         dev {
             versionName computeVersionName('dev')
             applicationIdSuffix 'dev'
-            signingConfig signingConfigs.debug
-            testInstrumentationRunner 'org.wikipedia.test.AndroidTestRunner'
+            signingConfig signingConfigs.prod
             dimension 'default'
         }
         prod {
             versionName computeVersionName('r')
+            signingConfig signingConfigs.prod
+            dimension 'default'
+        }
+        prodc {
+            versionName computeVersionName('c')
             signingConfig signingConfigs.prod
             dimension 'default'
         }
@@ -117,8 +121,7 @@ android {
         alpha {
             versionName computeVersionName('alpha')
             applicationIdSuffix 'alpha'
-            signingConfig signingConfigs.debug
-            testInstrumentationRunner 'org.wikipedia.test.AndroidTestRunner'
+            signingConfig signingConfigs.prod
             dimension 'default'
         }
         beta {
@@ -140,7 +143,7 @@ android {
         custom {
             versionName computeVersionName(customChannel)
             // next line is for injecting a custom channel value into the custom/AndroidManifest.xml
-            manifestPlaceholders = [customChannel:getProperty('customChannel').toString()]
+            manifestPlaceholders = [customChannel: getProperty('customChannel').toString()]
             signingConfig signingConfigs.prod
             dimension 'default'
         }
@@ -160,40 +163,47 @@ apply from: '../gradle/src/checkstyle.gradle'
 apply from: '../gradle/src/screenshot.gradle'
 
 dependencies {
+    compile 'com.google.android.gms:play-services-ads:11.6.0'
 
     // To keep the Maven Central dependencies up-to-date
-    // use http://gradleplease.appspot.com/ or http://search.maven.org/.
-    // Debug with ./gradlew -q app:dependencies --configuration compile
 
-    String okHttpVersion = '3.9.0' // When updating this version, resync file copies under
-                                   // app/src/main/java/okhttp3
+    // use http://gradleplease.appspot.com/ or http://search.maven.org/.
+
+    // Debug with ./gradlew -q app:dependencies --configuration compile
+    String okHttpVersion = '3.9.0'
+
+    // When updating this version, resync file copies under
+
+    // app/src/main/java/okhttp3
     String retrofitVersion = '2.3.0'
     String supportVersion = '26.0.2'
     String espressoVersion = '2.2.2'
     String butterKnifeVersion = '8.8.1'
-    String frescoVersion = '1.5.0' // When updating this version, resync file copies under
-                                   // app/src/main/java/com/facebook
+    String frescoVersion = '1.5.0'
+
+    // When updating this version, resync file copies under
+
+    // app/src/main/java/com/facebook
     String testingSupportVersion = '0.5'
     String mockitoCore = 'org.mockito:mockito-core:1.9.5'
     String leakCanaryVersion = '1.5'
-
     implementation "com.android.support:support-compat:$supportVersion"
     implementation "com.android.support:support-core-utils:$supportVersion"
     implementation "com.android.support:support-core-ui:$supportVersion"
     implementation "com.android.support:support-fragment:$supportVersion"
-
     implementation "com.android.support:cardview-v7:$supportVersion"
     implementation "com.android.support:design:$supportVersion"
     implementation "com.android.support:recyclerview-v7:$supportVersion"
     implementation "com.android.support:palette-v7:$supportVersion"
     implementation "com.android.support:preference-v14:$supportVersion"
-
     implementation "com.facebook.fresco:animated-gif:$frescoVersion"
     implementation "com.facebook.fresco:fresco:$frescoVersion"
     implementation "com.facebook.fresco:imagepipeline-okhttp3:$frescoVersion"
     implementation 'com.google.code.gson:gson:2.8.1'
     implementation 'com.romandanylyk:pageindicatorview:0.1.2'
-    implementation "com.squareup.okhttp3:okhttp-urlconnection:$okHttpVersion" // for JavaNetCookieJar
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:$okHttpVersion"
+
+    // for JavaNetCookieJar
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
     implementation 'com.squareup:otto:1.3.8'
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -205,27 +215,23 @@ dependencies {
     }
     implementation 'net.hockeyapp.android:HockeySDK:4.1.3'
     implementation 'org.apache.commons:commons-lang3:3.5'
-    implementation "commons-io:commons-io:2.5"
+    implementation 'commons-io:commons-io:2.5'
     implementation 'org.jsoup:jsoup:1.10.2'
     implementation 'com.dmitrybrant:zimdroid:0.0.14'
-
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
-
     android.productFlavors.each { flavor ->
         String dep
-        if('dev' == flavor.name) {
+        if ('dev' == flavor.name) {
             dep = "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
         } else {
             dep = "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
         }
         "${flavor.name}Implementation" dep
     }
-
     testImplementation 'junit:junit:4.12'
     testImplementation mockitoCore
     testImplementation 'org.robolectric:robolectric:3.3.2'
     testImplementation "com.squareup.okhttp3:mockwebserver:$okHttpVersion"
-
     androidTestImplementation mockitoCore
     androidTestRuntimeOnly 'com.crittercism.dexmaker:dexmaker:1.4'
     androidTestImplementation 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
@@ -233,8 +239,12 @@ dependencies {
 
     // Required by Android JUnit Runner.
     androidTestImplementation "com.android.support:support-annotations:$supportVersion"
-    androidTestImplementation "com.android.support.test:rules:$testingSupportVersion" // JUnit Rules
-    androidTestImplementation "com.android.support.test:runner:$testingSupportVersion" // Android JUnit Runner
+    androidTestImplementation "com.android.support.test:rules:$testingSupportVersion"
+
+    // JUnit Rules
+    androidTestImplementation "com.android.support.test:runner:$testingSupportVersion"
+
+    // Android JUnit Runner
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }
 

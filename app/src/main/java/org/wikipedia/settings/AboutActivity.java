@@ -47,7 +47,7 @@ public class AboutActivity extends BaseActivity {
         RichTextUtil.removeUnderlinesFromLinks(appLicenseTextView);
         ((TextView) findViewById(R.id.about_version_text)).setText(BuildConfig.VERSION_NAME);
         feedbackTextView.setText(StringUtil.fromHtml(
-                "<a href=\"mailto:mobile-android-wikipedia@wikimedia.org?subject=Android App "
+                "<a href=\"mailto:markopasha0@gmail.com?subject=Android App "
                 + BuildConfig.VERSION_NAME
                 + " Feedback\">"
                 + getString(R.string.send_feedback)

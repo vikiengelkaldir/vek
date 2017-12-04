@@ -9,25 +9,25 @@
             <intent android:action="android.intent.action.VIEW"
                     android:targetClass="org.wikipedia.settings.AboutActivity"
                     android:targetPackage="org.wikipedia"
-                    />
-        </org.wikipedia.settings.PreferenceMultiLine>
-        <org.wikipedia.settings.PreferenceMultiLine
-            android:title="@string/wikipedia_app_faq">
-            <intent android:action="android.intent.action.VIEW"
-                    android:data="https://m.mediawiki.org/wiki/Wikimedia_Apps/Android_FAQ"
-                    />
-        </org.wikipedia.settings.PreferenceMultiLine>
-        <org.wikipedia.settings.PreferenceMultiLine
-            android:title="@string/privacy_policy_description">
-            <intent android:action="android.intent.action.VIEW"
-                    android:data="@string/privacy_policy_url"
-                    />
-        </org.wikipedia.settings.PreferenceMultiLine>
-        <org.wikipedia.settings.PreferenceMultiLine
-            android:title="@string/terms_of_use_description">
-            <intent android:action="android.intent.action.VIEW"
-                    android:data="@string/terms_of_use_url"
-                    />
+                />
+            <!--</org.wikipedia.settings.PreferenceMultiLine>-->
+            <!--<org.wikipedia.settings.PreferenceMultiLine-->
+            <!--android:title="@string/wikipedia_app_faq">-->
+            <!--<intent android:action="android.intent.action.VIEW"-->
+            <!--android:data="https://m.mediawiki.org/wiki/Wikimedia_Apps/Android_FAQ"-->
+            />
+            <!--</org.wikipedia.settings.PreferenceMultiLine>-->
+            <!--<org.wikipedia.settings.PreferenceMultiLine-->
+            <!--android:title="@string/privacy_policy_description">-->
+            <!--<intent android:action="android.intent.action.VIEW"-->
+            <!--android:data="@string/privacy_policy_url"-->
+            />
+            <!--</org.wikipedia.settings.PreferenceMultiLine>-->
+            <!--<org.wikipedia.settings.PreferenceMultiLine-->
+            <!--android:title="@string/terms_of_use_description">-->
+            <!--<intent android:action="android.intent.action.VIEW"-->
+            <!--android:data="@string/terms_of_use_url"-->
+            />
         </org.wikipedia.settings.PreferenceMultiLine>
     </PreferenceCategory>
 

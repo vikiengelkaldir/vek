@@ -12,7 +12,7 @@ import org.wikipedia.R;
 import org.wikipedia.activity.SingleFragmentToolbarActivity;
 import org.wikipedia.appshortcuts.AppShortcuts;
 import org.wikipedia.navtab.NavTab;
-import org.wikipedia.onboarding.InitialOnboardingActivity;
+//import org.wikipedia.onboarding.InitialOnboardingActivity;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.util.ReleaseUtil;
 import org.wikipedia.util.ResourceUtil;
@@ -31,10 +31,10 @@ public class MainActivity extends SingleFragmentToolbarActivity<MainFragment>
         new AppShortcuts().init();
 
         //TODO: remove pre-beta feature flag when ready.
-        if (ReleaseUtil.isPreBetaRelease()
-                && Prefs.isInitialOnboardingEnabled() && savedInstanceState == null) {
-            startActivity(InitialOnboardingActivity.newIntent(this));
-        }
+//        if (ReleaseUtil.isPreBetaRelease()
+//                && Prefs.isInitialOnboardingEnabled() && savedInstanceState == null) {
+//            startActivity(InitialOnboardingActivity.newIntent(this));
+//        }
     }
 
     @Override protected MainFragment createFragment() {

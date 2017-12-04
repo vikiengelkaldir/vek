@@ -13,18 +13,20 @@
         android:id="@+id/explore_overflow_account_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
         android:orientation="vertical"
         android:padding="16dp"
-        android:clickable="true"
-        android:background="?attr/selectableItemBackground">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/explore_overflow_account_avatar"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginBottom="4dp"
-            app:srcCompat="@drawable/user_avatar"
-            android:contentDescription="@null" />
+            android:contentDescription="@null"
+            android:visibility="gone"
+            app:srcCompat="@drawable/user_avatar" />
 
         <TextView
             android:id="@+id/explore_overflow_account_name"
@@ -33,7 +35,8 @@
             android:layout_gravity="center_vertical"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            tools:text="Sample account name"/>
+            android:visibility="gone"
+            tools:text="Sample account name" />
 
     </LinearLayout>
 
@@ -63,8 +66,9 @@
         <TextView
             android:id="@+id/explore_overflow_log_out"
             style="@style/OverflowMenuItem"
+            android:text="@string/preference_title_logout"
             android:textColor="@color/red50"
-            android:text="@string/preference_title_logout"/>
+            android:visibility="gone" />
 
     </LinearLayout>
 

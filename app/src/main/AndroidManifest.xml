@@ -16,15 +16,16 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission
-        android:name="android.permission.GET_ACCOUNTS"
-        android:maxSdkVersion="22" />
-    <uses-permission
-        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
-        android:maxSdkVersion="22" />
-    <uses-permission
-        android:name="android.permission.MANAGE_ACCOUNTS"
-        android:maxSdkVersion="22" />
+    <!--<uses-permission-->
+        <!--android:name="android.permission.GET_ACCOUNTS"-->
+        <!---->
+        <!--android:maxSdkVersion="22" />-->
+    <!--<uses-permission-->
+        <!--android:name="android.permission.AUTHENTICATE_ACCOUNTS"-->
+        <!--android:maxSdkVersion="22" />-->
+    <!--<uses-permission-->
+        <!--android:name="android.permission.MANAGE_ACCOUNTS"-->
+        <!--android:maxSdkVersion="22" />-->
 
     <!-- For Wikipedia Zero notifications: http://stackoverflow.com/q/13602190/970346 -->
     <uses-permission android:name="android.permission.VIBRATE" android:maxSdkVersion="18" />

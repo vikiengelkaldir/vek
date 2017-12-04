@@ -1,7 +1,6 @@
 package org.wikipedia.page;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.SearchManager;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
@@ -10,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -85,6 +83,10 @@ import butterknife.Unbinder;
 
 import static org.wikipedia.settings.Prefs.isLinkPreviewEnabled;
 import static org.wikipedia.util.UriUtil.visitInExternalBrowser;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 
 public class PageActivity extends BaseActivity implements PageFragment.Callback,
         LinkPreviewDialog.Callback, SearchFragment.Callback, ThemeChooserDialog.Callback,
@@ -125,13 +127,17 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
             pageFragment.updateBookmarkAndMenuOptionsFromDao();
         }
     };
+    private AdView mAdView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MobileAds.initialize(this, "reklam98");
+
+
         app = (WikipediaApp) getApplicationContext();
         MetricsManager.register(app, app);
-        app.checkCrashes(this);
+//        app.checkCrashes(this);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
@@ -163,6 +169,11 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
         setSupportActionBar(toolbar);
         clearActionBarTitle();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
 
         FeedbackUtil.setToolbarButtonLongPressToast(searchButton, tabsButton);
         tabsButton.setImageDrawable(ContextCompat.getDrawable(pageFragment.getContext(),
@@ -416,7 +427,6 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
      * @param position Whether to open this page in the current tab, a new background tab, or new
      *                 foreground tab.
      */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void loadPage(@NonNull final PageTitle title,
                          @NonNull final HistoryEntry entry,
                          @NonNull final TabPosition position) {
@@ -428,8 +438,8 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
             new LinkPreviewFunnel(app, entry.getSource()).logNavigate();
         }
 
-        app.putCrashReportProperty("api", title.getWikiSite().authority());
-        app.putCrashReportProperty("title", title.toString());
+//        app.putCrashReportProperty("api", title.getWikiSite().authority());
+//        app.putCrashReportProperty("title", title.toString());
 
         if (title.isSpecial()) {
             visitInExternalBrowser(this, Uri.parse(title.getMobileUri()));
@@ -616,7 +626,7 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
 
     @Override
     public void onPageAddToReadingList(@NonNull PageTitle title,
-                                @NonNull AddToReadingListDialog.InvokeSource source) {
+                                       @NonNull AddToReadingListDialog.InvokeSource source) {
         showAddToListDialog(title, source);
     }
 

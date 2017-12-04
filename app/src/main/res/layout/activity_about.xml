@@ -15,36 +15,40 @@
             android:padding="24dp"
             android:gravity="center"
             >
+
         <ImageView
             android:id="@+id/about_logo_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:contentDescription="@null"
             android:src="@drawable/w_nav_mark"
             android:tint="?attr/primary_text_color"
-            android:contentDescription="@null"
 
-            />
+            android:visibility="gone" />
         <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_marginBottom="8dp"
                 android:orientation="vertical">
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/wp_wordmark"
-                    android:tint="@color/base30"
-                    android:contentDescription="@null"
-                    />
-                <TextView android:id="@+id/about_version_text"
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          tools:text="2.x-sample-version"
-                          style="?android:textAppearanceSmall"
-                          android:textIsSelectable="true"
-                          android:textColor="#888"
-                    />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:src="@drawable/wp_wordmark"
+                android:tint="@color/base30"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/about_version_text"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#888"
+                android:textIsSelectable="true"
+                android:visibility="gone"
+                tools:text="2.x-sample-version" />
         </LinearLayout>
 
         <TextView
@@ -53,12 +57,12 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 style="?android:textAppearanceSmall"
-                android:text="@string/about_contributors_heading" />
+                android:text="@string/hakki" />
         <org.wikipedia.views.AppTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layoutDirection="ltr"
-                android:text="@string/contributors_list"
+                android:text="@string/mesaju"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textIsSelectable="true"
                 android:lineSpacingMultiplier="1.2"
@@ -67,24 +71,26 @@
                 />
 
         <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                style="?android:textAppearanceSmall"
-                android:text="@string/about_translators_heading" />
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/about_translators_heading"
+            android:visibility="gone" />
+
         <org.wikipedia.views.AppTextView
-                android:id="@+id/about_translators"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/RtlAwareTextView"
-                android:text="@string/about_translators_translatewiki"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textIsSelectable="true"
-                android:lineSpacingMultiplier="1.2"
-                android:textColor="#555"
-                android:layout_marginBottom="8dp"
-                />
+            android:id="@+id/about_translators"
+            style="@style/RtlAwareTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@string/about_translators_translatewiki"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#555"
+            android:textIsSelectable="true"
+            android:visibility="gone" />
 
         <TextView
                 android:layout_width="match_parent"
@@ -148,20 +154,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
+            android:contentDescription="@null"
             android:padding="4dp"
-            app:srcCompat="@drawable/ic_wmf_logo"
             android:tint="@color/base30"
-            android:contentDescription="@null" />
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_wmf_logo" />
 
         <org.wikipedia.views.AppTextView
             android:id="@+id/about_wmf"
+            style="?android:textAppearanceSmall"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:text="@string/about_wmf"
-            style="?android:textAppearanceSmall"
-            android:textIsSelectable="true"
             android:layout_weight="1"
-            android:textColor="#555" />
+            android:text="@string/about_wmf"
+            android:textColor="#555"
+            android:textIsSelectable="true"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>

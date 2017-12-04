@@ -139,13 +139,13 @@ import java.util.UUID;
                 }
                 L.d(logString);
 
-                EventLoggingEvent event = new EventLoggingEvent(
-                        schemaName,
-                        revision,
-                        wiki == null ? app.getWikiSite().dbName() : wiki.dbName(),
-                        preprocessData(eventData)
-                );
-                EventLoggingService.getInstance().log(event.getData());
+//                EventLoggingEvent event = new EventLoggingEvent(
+//                        schemaName,
+//                        revision,
+//                        wiki == null ? app.getWikiSite().dbName() : wiki.dbName(),
+//                        preprocessData(eventData)
+//                );
+//                EventLoggingService.getInstance().log(event.getData());
             }
         }
     }

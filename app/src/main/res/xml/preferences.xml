@@ -4,8 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/preferences_general_heading">
         <org.wikipedia.settings.PreferenceMultiLine
-                android:key="@string/preference_key_language"
-                android:title="@string/preference_title_language">
+            android:key="@string/preference_key_language"
+            android:title="@string/preference_title_language">
         </org.wikipedia.settings.PreferenceMultiLine>
         <SwitchPreferenceCompat
             android:key="@string/preference_key_show_images"
@@ -42,16 +42,16 @@
             android:title="@string/preference_title_prefer_offline_content"
             android:summary="@string/preference_summary_prefer_offline_content" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/preferences_privacy_settings_heading">
-        <SwitchPreferenceCompat
-            android:key="@string/preference_key_eventlogging_opt_in"
-            android:defaultValue="true"
-            android:title="@string/preference_title_eventlogging_opt_in"
-            android:summary="@string/preference_summary_eventlogging_opt_in" />
-        <SwitchPreferenceCompat
-            android:key="@string/preference_key_auto_upload_crash_reports"
-            android:defaultValue="true"
-            android:title="@string/preference_title_auto_upload_crash_reports"
-            android:summary="@string/preference_summary_auto_upload_crash_reports" />
-    </PreferenceCategory>
+    <!--<PreferenceCategory android:title="@string/preferences_privacy_settings_heading">-->
+    <!--<SwitchPreferenceCompat-->
+    <!--android:key="@string/preference_key_eventlogging_opt_in"-->
+    <!--android:defaultValue="false"-->
+    <!--android:title="@string/preference_title_eventlogging_opt_in"-->
+    <!--android:summary="@string/preference_summary_eventlogging_opt_in" />-->
+    <!--<SwitchPreferenceCompat-->
+    <!--android:key="@string/preference_key_auto_upload_crash_reports"-->
+    <!--android:defaultValue="false"-->
+    <!--android:title="@string/preference_title_auto_upload_crash_reports"-->
+    <!--android:summary="@string/preference_summary_auto_upload_crash_reports" />-->
+    <!--</PreferenceCategory>-->
 </android.support.v7.preference.PreferenceScreen>
