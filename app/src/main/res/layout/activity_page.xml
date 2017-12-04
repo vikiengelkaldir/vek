@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_page_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base10">
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/page_fragment"
+        android:name="org.wikipedia.page.PageFragment"
+        android:layout="@layout/fragment_page"
+        tools:layout="@layout/fragment_page" />
+
+    <!-- tabs container -->
+    <FrameLayout
+        android:id="@+id/tabs_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <ListView
+            android:id="@+id/tabs_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:stackFromBottom="true"
+            android:transcriptMode="alwaysScroll"
+            android:listSelector="?attr/tab_item_selector"
+            />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/page_toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="?attr/page_toolbar_color"
+        android:elevation="4dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/page_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/PageToolbarTheme"
+                app:titleTextColor="?attr/page_toolbar_icon_color"
+                app:navigationIcon="@drawable/ic_close_themed_24dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|end">
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/page_toolbar_button_search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:contentDescription="@string/search_hint"
+                        app:srcCompat="@drawable/ic_search_themed_24dp"
+                        app:tint="?attr/page_toolbar_icon_color"
+                        app:tintMode="src_in"/>
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/page_toolbar_button_show_tabs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:contentDescription="@string/menu_page_show_tabs"
+                        app:tint="?attr/page_toolbar_icon_color"
+                        app:tintMode="src_in"/>
+                </LinearLayout>
+            </android.support.v7.widget.Toolbar>
+            <ProgressBar
+                android:id="@+id/page_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-7dp"
+                android:layout_gravity="top"
+                android:max="10000"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

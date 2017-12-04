@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/paper_color"
+    tools:context=".main.MainActivity">
+
+    <org.wikipedia.views.WikiDrawerLayout
+            android:id="@+id/page_toc_drawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <org.wikipedia.views.SwipeRefreshLayoutWithScroll
+            android:id="@+id/page_refresh_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.CoordinatorLayout
+                android:id="@+id/page_contents_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <org.wikipedia.views.ObservableWebView
+                    android:id="@+id/page_web_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <org.wikipedia.page.leadimages.PageHeaderView
+                    android:id="@+id/page_header_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!-- Read More + bottom content (view in browser link, license, last updated) -->
+                <LinearLayout
+                    android:id="@+id/bottom_content_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="-400dp"
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <include layout="@layout/fragment_page_read_more"/>
+
+                    <include layout="@layout/fragment_page_bottom_content"/>
+
+                </LinearLayout>
+
+                <org.wikipedia.views.WikiPageErrorView
+                    android:id="@+id/page_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:background="?android:windowBackground"
+                    android:visibility="gone"/>
+
+                <org.wikipedia.page.PageActionTabLayout
+                    android:id="@+id/page_actions_tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    app:tabGravity="fill"
+                    android:background="@color/base18"
+                    app:tabSelectedTextColor="@color/base18"
+                    app:tabIndicatorColor="@color/base18" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/page_random_button"
+                    style="@style/FloatingActionButton"
+                    android:layout_marginBottom="64dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:contentDescription="@string/view_next_random_article"
+                    app:backgroundTint="?attr/colorAccent"
+                    app:borderWidth="0dp"
+                    app:elevation="4dp"
+                    app:srcCompat="@drawable/ic_casino_accent50_24dp"
+                    android:tint="@android:color/white"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+            </android.support.design.widget.CoordinatorLayout>
+
+        </org.wikipedia.views.SwipeRefreshLayoutWithScroll>
+
+        <include layout="@layout/fragment_page_toc"/>
+
+    </org.wikipedia.views.WikiDrawerLayout>
+
+    <android.support.v4.widget.Space
+        android:id="@+id/fragment_page_tool_tip_select_text_target"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="80dp"/>
+
+</FrameLayout>

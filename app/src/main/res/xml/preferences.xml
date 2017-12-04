@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/preferences_general_heading">
+        <org.wikipedia.settings.PreferenceMultiLine
+                android:key="@string/preference_key_language"
+                android:title="@string/preference_title_language">
+        </org.wikipedia.settings.PreferenceMultiLine>
+        <SwitchPreferenceCompat
+            android:key="@string/preference_key_show_images"
+            android:defaultValue="true"
+            android:title="@string/preference_title_show_images"
+            android:summary="@string/preference_summary_show_images" />
+        <SwitchPreferenceCompat
+            android:key="@string/preference_key_show_link_previews"
+            android:defaultValue="true"
+            android:title="@string/preference_title_show_link_previews"
+            android:summary="@string/preference_summary_show_link_previews" />
+        <org.wikipedia.theme.ThemeSwitchPreferenceCompat
+            android:key="@string/preference_key_color_theme"
+            android:defaultValue="0"
+            android:title="@string/preference_title_color_theme"
+            android:summary="@string/preference_summary_color_theme"/>
+        <SwitchPreferenceCompat
+            android:key="@string/preference_key_dim_dark_mode_images"
+            android:defaultValue="true"
+            android:title="@string/preference_title_dim_dark_mode_images"
+            android:summary="@string/preference_summary_dim_dark_mode_images"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="@string/preference_category_storage_sync"
+        android:title="@string/preferences_heading_storage_and_syncing">
+        <SwitchPreferenceCompat
+            android:key="@string/preference_key_sync_reading_lists"
+            android:defaultValue="true"
+            android:title="@string/preference_title_sync_reading_lists"
+            android:summary="@string/preference_summary_sync_reading_lists" />
+        <SwitchPreferenceCompat
+            android:key="@string/preference_key_prefer_offline_content"
+            android:defaultValue="false"
+            android:title="@string/preference_title_prefer_offline_content"
+            android:summary="@string/preference_summary_prefer_offline_content" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/preferences_privacy_settings_heading">
+        <SwitchPreferenceCompat
+            android:key="@string/preference_key_eventlogging_opt_in"
+            android:defaultValue="true"
+            android:title="@string/preference_title_eventlogging_opt_in"
+            android:summary="@string/preference_summary_eventlogging_opt_in" />
+        <SwitchPreferenceCompat
+            android:key="@string/preference_key_auto_upload_crash_reports"
+            android:defaultValue="true"
+            android:title="@string/preference_title_auto_upload_crash_reports"
+            android:summary="@string/preference_summary_auto_upload_crash_reports" />
+    </PreferenceCategory>
+</android.support.v7.preference.PreferenceScreen>

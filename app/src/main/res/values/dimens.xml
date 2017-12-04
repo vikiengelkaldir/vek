@@ -1,0 +1,128 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="toolbar_default_elevation">4dp</dimen>
+
+    <dimen name="edit_pencil_size">24dp</dimen>
+    <dimen name="edit_pencil_horizontal_margin">24dp</dimen>
+
+    <dimen name="popup_menu_drop_down_horizontal_offset">8dp</dimen>
+    <dimen name="popup_menu_drop_down_vertical_offset">-8dp</dimen>
+
+    <dimen name="margin">8dp</dimen>
+
+    <dimen name="corner_radius">4dp</dimen>
+    <dimen name="corner_radius_smaller">2dp</dimen>
+
+    <dimen name="list_item_vertical_padding">16dp</dimen>
+    <dimen name="list_item_horizontal_padding">16dp</dimen>
+    <dimen name="list_item_footer_padding">12dp</dimen>
+
+    <!-- Default font size for WebView text based on system settings -->
+    <dimen name="textSize">16sp</dimen>
+    <integer name="minTextSizeMultiplier">-5</integer>
+    <integer name="maxTextSizeMultiplier">8</integer>
+    <item type="dimen" format="float" name="textSizeMultiplierFactor">0.1</item>
+
+    <!-- Default height of list items -->
+    <dimen name="defaultListItemSize">56dp</dimen>
+
+    <!-- Default height of reading list items -->
+    <dimen name="readingListItemSize">56dp</dimen>
+    <dimen name="readingListLeadHeight">240dp</dimen>
+
+    <!-- Default height of tab item images, which governs the size of tabs themselves -->
+    <dimen name="tabImageSize">48dp</dimen>
+
+    <!-- Default width of the lead image to be downloaded -->
+    <dimen name="leadImageWidth">640dp</dimen>
+    <item type="dimen" format="float" name="articleHeaderViewScreenHeightRatio">0.4</item>
+    <!-- Default font size of the page title -->
+    <dimen name="titleTextSize">28sp</dimen>
+    <!-- Default font size of the Wikidata description for the page -->
+    <dimen name="descriptionTextSize">14sp</dimen>
+
+    <!-- Default screen height ratio for news feature image -->
+    <item type="dimen" format="float" name="newsFeatureImageScreenHeightRatio">0.3</item>
+
+    <dimen name="content_margin">@dimen/activity_horizontal_margin</dimen>
+
+    <dimen name="drawer_drag_margin">16dp</dimen>
+
+    <!-- Tool tips -->
+    <dimen name="tool_tip_max_width">250dp</dimen>
+
+    <!-- Default maximum width of bottom sheets. -->
+    <dimen name="bottomSheetMaxWidth">480dp</dimen>
+    <!-- Default height with which bottom sheets peek out from the bottom -->
+    <dimen name="bottomSheetPeekHeight">320dp</dimen>
+    <dimen name="readingListSheetPeekHeight">360dp</dimen>
+    <!-- Default size of images in Link Preview thumbnail gallery -->
+    <dimen name="linkPreviewImageSize">112dp</dimen>
+
+    <item type="dimen" format="float" name="linkPreviewThumbPressScale">1.03</item>
+    <item type="dimen" format="float" name="linkPreviewThumbPressOverScale">1.05</item>
+
+    <!-- Share-a-fact image preview -->
+    <dimen name="share_image_width">320dp</dimen>
+    <dimen name="share_image_height">180dp</dimen>
+
+    <!-- Floating action button -->
+    <dimen name="floating_action_button_margin_left">0dp</dimen>
+    <dimen name="floating_action_button_margin_top">0dp</dimen>
+    <dimen name="floating_action_button_margin_right">8dp</dimen>
+    <dimen name="floating_action_button_margin_bottom">0dp</dimen>
+
+    <dimen name="shadow_thickness">3dp</dimen>
+
+    <!-- Value for android:lineSpacingMultiplier in the article title TextView.
+         Note that the default value is undocumented but less than 1.0. -->
+    <item name="lead_title_leading_scalar" format="float" type="dimen">1.05</item>
+    <item name="lead_subtitle_leading_scalar" format="float" type="dimen">1.35</item>
+    <item name="lead_subtitle_paragraph_scalar" format="float" type="dimen">1.15</item>
+    <dimen name="lead_no_image_top_offset_dp">56dp</dimen>
+
+    <dimen name="audio_url_span_loading_spinner_border_thickness">2dp</dimen>
+    <dimen name="audio_url_span_loading_spinner_radius">8dp</dimen>
+
+    <!-- Maps -->
+    <integer name="map_default_zoom">12</integer>
+
+    <!-- Crash report -->
+    <item name="crash_report_icon_alpha" format="float" type="dimen">.5</item>
+
+    <!-- Zero -->
+    <integer name="zero_notification_light_on_ms">500</integer>
+    <integer name="zero_notification_light_off_ms">3000</integer>
+
+    <!-- The Feed -->
+    <dimen name="view_feed_padding_top">4dp</dimen>
+    <dimen name="view_feed_search_padding_bottom">8dp</dimen>
+    <dimen name="view_feed_min_column_width">320dp</dimen>
+    <dimen name="view_list_card_margin_vertical">4dp</dimen>
+    <dimen name="view_list_card_margin_horizontal">8dp</dimen>
+    <dimen name="view_horizontal_scrolling_list_card_item_margin_horizontal">4dp</dimen>
+    <dimen name="view_horizontal_scrolling_list_card_item_margin_vertical">0dp</dimen>
+    <dimen name="view_list_card_item_image">40dp</dimen>
+    <dimen name="overflow_elevation">16dp</dimen>
+    <integer name="article_engagement_threshold_sec">30</integer>
+
+    <!-- Description editing -->
+    <integer name="description_max_chars">90</integer>
+    <integer name="description_max_anon_edits">5</integer>
+
+    <!-- Notifications -->
+    <integer name="notification_poll_interval_minutes">10</integer>
+    <integer name="notification_poll_timeout_days">1</integer>
+
+    <!-- Reading lists -->
+    <integer name="reading_list_item_size_bytes_per_unit">1000000</integer> <!-- 1 MB -->
+    <integer name="reading_list_description_summary_view_max_lines">2</integer>
+
+    <!-- App shortcuts -->
+    <dimen name="app_shortcut_icon_size">24dp</dimen>
+    <dimen name="app_shortcut_icon_margin">14dp</dimen>
+
+</resources>

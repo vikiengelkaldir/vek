@@ -1,0 +1,73 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="12dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/view_card_header_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:padding="3dp"
+            app:srcCompat="@drawable/ic_restore_black_24dp"
+            android:tint="@android:color/white"
+            android:background="@drawable/shape_circle"
+            tools:backgroundTint="@color/accent50"
+            android:contentDescription="@null"/>
+
+        <TextView
+            android:id="@+id/view_card_header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?attr/section_title_color"
+            android:maxLines="2"
+            android:ellipsize="end"
+            tools:text="Lorem ipsum"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/view_card_header_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:textSize="12sp"
+            android:textColor="?attr/secondary_text_color"
+            tools:text="Lorem ipsum"/>
+
+        <ImageView
+            android:id="@+id/view_list_card_header_menu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:layout_gravity="end"
+            app:srcCompat="@drawable/ic_more_vert_white_24dp"
+            android:tint="?attr/secondary_text_color"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/abc_action_menu_overflow_description"/>
+
+    </LinearLayout>
+
+</LinearLayout>

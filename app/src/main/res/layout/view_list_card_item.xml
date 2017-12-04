@@ -1,0 +1,69 @@
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingRight="@dimen/list_item_horizontal_padding"
+        android:paddingBottom="@dimen/list_item_horizontal_padding"
+        android:paddingLeft="@dimen/list_item_horizontal_padding"
+        android:background="?attr/paper_color"
+        android:foreground="?attr/selectableItemBackground">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            style="@style/SimpleDraweeViewPlaceholder.Article"
+            android:id="@+id/view_list_card_item_image"
+            android:layout_width="@dimen/view_list_card_item_image"
+            android:layout_height="@dimen/view_list_card_item_image"
+            android:layout_marginTop="6dp"
+            app:roundedCornerRadius="2dp"
+            app:backgroundImage="@color/base100" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/view_list_card_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                style="@style/MaterialListTitle"
+                android:textAppearance="@style/RtlAwareTextView"
+                tools:text="Lorem ipsum"/>
+
+            <org.wikipedia.views.GoneIfEmptyTextView
+                android:id="@+id/view_list_card_item_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                style="@style/MaterialListSubtitle"
+                android:textAppearance="@style/RtlAwareTextView"
+                tools:text="Lorem ipsum"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/view_list_card_item_menu"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="end"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_more_vert_white_24dp"
+        app:tint="?attr/material_theme_de_emphasised_color"
+        app:tintMode="src_in"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/abc_action_menu_overflow_description"/>
+
+</merge>

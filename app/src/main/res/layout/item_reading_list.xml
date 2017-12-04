@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/paper_color"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <LinearLayout
+            android:id="@+id/item_image_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            android:layout_gravity="top">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.facebook.drawee.view.SimpleDraweeView
+                    style="@style/SimpleDraweeViewPlaceholder.ReadingListThumbnail"
+                    android:id="@+id/item_image_1"
+                    android:layout_marginRight="0.5dp"
+                    android:layout_marginEnd="0.5dp"
+                    app:roundTopLeft="true"/>
+                <com.facebook.drawee.view.SimpleDraweeView
+                    style="@style/SimpleDraweeViewPlaceholder.ReadingListThumbnail"
+                    android:id="@+id/item_image_2"
+                    app:roundTopRight="true"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0.5dp">
+                <com.facebook.drawee.view.SimpleDraweeView
+                    style="@style/SimpleDraweeViewPlaceholder.ReadingListThumbnail"
+                    android:id="@+id/item_image_3"
+                    android:layout_marginRight="0.5dp"
+                    android:layout_marginEnd="0.5dp"
+                    app:roundBottomLeft="true"/>
+                <com.facebook.drawee.view.SimpleDraweeView
+                    style="@style/SimpleDraweeViewPlaceholder.ReadingListThumbnail"
+                    android:id="@+id/item_image_4"
+                    app:roundBottomRight="true"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginTop="-4dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/RtlAwareTextView"
+                style="@style/MaterialListTitle"
+                android:ellipsize="end"
+                android:maxLines="2"
+                tools:text="Lorem ipsum" />
+
+            <TextView
+                android:id="@+id/item_reading_list_statistical_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/RtlAwareTextView"
+                style="@style/MaterialListSubtitle"
+                android:textSize="12sp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="x items" />
+
+            <TextView
+                android:id="@+id/item_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="@style/RtlAwareTextView"
+                style="@style/MaterialListSubtitle"
+                android:ellipsize="end"
+                android:maxLines="@integer/reading_list_description_summary_view_max_lines"
+                tools:text="Sample description" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/item_overflow_menu"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="end"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_more_vert_white_24dp"
+        android:tint="?attr/secondary_text_color"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/abc_action_menu_overflow_description"/>
+
+</FrameLayout>
