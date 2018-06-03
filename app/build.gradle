@@ -32,7 +32,7 @@ def static getDate() {
 }
 
 def computeVersionName(label) {
-    return "1.1.4.w2.7.225-${label}-${date}"
+    return "1.2.4.w2.7.225-${label}-${date}"
 }
 
 final JavaVersion JAVA_VERSION = JavaVersion.VERSION_1_8
@@ -56,7 +56,7 @@ android {
         applicationId 'org.engelkaldir.unblockerfor'
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 105
+        versionCode 107
         testApplicationId 'org.wikipedia.test'
         testInstrumentationRunner 'org.wikipedia.test.AndroidTestRunner'
         vectorDrawables.useSupportLibrary = true

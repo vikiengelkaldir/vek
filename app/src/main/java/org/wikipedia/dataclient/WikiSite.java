@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -82,8 +83,8 @@ public class WikiSite implements Parcelable {
     }
 
     public WikiSite(@NonNull String url) {
-        this(url.startsWith("http") ? Uri.parse(url) : url.startsWith("//")
-                ? Uri.parse(DEFAULT_SCHEME + ":" + url) : Uri.parse(DEFAULT_SCHEME + "://" + url));
+        this(url.startsWith("http") ? Uri.parse(url.replace("wikipedia","vikiansiklopedi")) : url.startsWith("//")
+                ? Uri.parse(DEFAULT_SCHEME + ":" + url.replace("wikipedia","vikiansiklopedi")) : Uri.parse(DEFAULT_SCHEME + "://" + url.replace("wikipedia","vikiansiklopedi")));
     }
 
     public WikiSite(@NonNull String authority, @NonNull String languageCode) {
@@ -104,7 +105,7 @@ public class WikiSite implements Parcelable {
      */
     @NonNull
     public String authority() {
-        return uri.getAuthority();
+        return uri.getAuthority().replace("wikipedia","vikiansiklopedi");
     }
 
     /**
@@ -149,14 +150,20 @@ public class WikiSite implements Parcelable {
      * @return The canonical URL. e.g., https://en.wikipedia.org.
      */
     @NonNull public String url() {
-        return uri.toString();
+        Log.d("some tag", "your message"+uri.toString().replace("m.wikipedia","vikiansiklopedi"));
+//        Log.d("some tag", "your message"+uri.toString());
+//        return uri.toString();
+        return uri.toString().replace("m.wikipedia","vikiansiklopedi");
     }
 
     /**
      * @return The canonical URL for segment. e.g., https://en.wikipedia.org/w/foo.
      */
     @NonNull public String url(@NonNull String segment) {
-        return url() + path(segment);
+        Log.d("some tag", "your mekjkjkssage"+url() + path(segment));;
+
+//        return url().replace("wikipedia","vikiansiklopedi") + path(segment);
+        return url().replace("wikipedia","vikiansiklopedi") + path(segment);
     }
 
     /**
@@ -230,10 +237,12 @@ public class WikiSite implements Parcelable {
     // Auto-generated
     @Override
     public String toString() {
-        return "WikiSite{"
+        String cc;
+        cc = "WikiSite{"
                 + "uri=" + uri
                 + ", languageCode='" + languageCode + '\''
                 + '}';
+        return cc.replace("wikipedia","vikiansiklopedi");
     }
 
     @Override
@@ -295,6 +304,8 @@ public class WikiSite implements Parcelable {
         if (authority.startsWith("m.") || authority.contains(".m.")) {
             return authority;
         }
+//        Log.d("some tag", "your message2"+authority.replaceFirst("^" + subdomain() + "\\.?", "$0m."));
         return authority.replaceFirst("^" + subdomain() + "\\.?", "$0m.");
+
     }
 }
