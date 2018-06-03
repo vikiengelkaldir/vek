@@ -9,29 +9,15 @@ import android.view.View;
 
 import org.wikipedia.R;
 import org.wikipedia.util.DimenUtil;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-
 
 /**
  * Boilerplate for a {@link android.support.v4.app.FragmentActivity} containing a single stack of
  * Fragments, with a Toolbar overlaid on top.
  */
 public abstract class SingleFragmentToolbarActivity<T extends Fragment> extends SingleFragmentActivity<T> {
-
-    private AdView mAdView;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MobileAds.initialize(this,
-                "reklam73");
-
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-
         setSupportActionBar(getToolbar());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("");

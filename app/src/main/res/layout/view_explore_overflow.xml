@@ -13,20 +13,18 @@
         android:id="@+id/explore_overflow_account_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
         android:orientation="vertical"
         android:padding="16dp"
-        android:visibility="gone">
+        android:clickable="true"
+        android:background="?attr/selectableItemBackground">
 
         <ImageView
             android:id="@+id/explore_overflow_account_avatar"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginBottom="4dp"
-            android:contentDescription="@null"
-            android:visibility="gone"
-            app:srcCompat="@drawable/user_avatar" />
+            app:srcCompat="@drawable/user_avatar"
+            android:contentDescription="@null" />
 
         <TextView
             android:id="@+id/explore_overflow_account_name"
@@ -35,8 +33,7 @@
             android:layout_gravity="center_vertical"
             android:textColor="@android:color/white"
             android:textSize="16sp"
-            android:visibility="gone"
-            tools:text="Sample account name" />
+            tools:text="Sample account name"/>
 
     </LinearLayout>
 
@@ -47,6 +44,11 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:background="?attr/paper_color">
+
+        <TextView
+            android:id="@+id/explore_overflow_configure_cards"
+            style="@style/OverflowMenuItem"
+            android:text="@string/feed_configure_activity_title"/>
 
         <TextView
             android:id="@+id/explore_overflow_compilations"
@@ -66,9 +68,8 @@
         <TextView
             android:id="@+id/explore_overflow_log_out"
             style="@style/OverflowMenuItem"
-            android:text="@string/preference_title_logout"
             android:textColor="@color/red50"
-            android:visibility="gone" />
+            android:text="@string/preference_title_logout"/>
 
     </LinearLayout>
 

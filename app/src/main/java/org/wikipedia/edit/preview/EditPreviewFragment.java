@@ -29,7 +29,7 @@ import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.page.LinkHandler;
 import org.wikipedia.page.PageActivity;
 import org.wikipedia.page.PageTitle;
-import org.wikipedia.theme.DarkModeSwitch;
+import org.wikipedia.theme.ThemeBridgeAdapter;
 import org.wikipedia.util.ConfigurationCompat;
 import org.wikipedia.util.L10nUtil;
 import org.wikipedia.util.log.L;
@@ -145,7 +145,7 @@ public class EditPreviewFragment extends Fragment {
         with the original Locale (from above)
          */
         if (!oldLocale.getLanguage().equals(newLocale.getLanguage())) {
-            ConfigurationCompat.setLocale(config, oldLocale);
+            config.setLocale(oldLocale);
             new Resources(assets, metrics, config);
         }
 
@@ -184,8 +184,8 @@ public class EditPreviewFragment extends Fragment {
         if (!isWebViewSetup) {
             isWebViewSetup = true;
             L10nUtil.setupDirectionality(parentActivity.getPageTitle().getWikiSite().languageCode(), Locale.getDefault().getLanguage(), bridge);
-            if (WikipediaApp.getInstance().isCurrentThemeDark()) {
-                new DarkModeSwitch(bridge).turnOn();
+            if (!WikipediaApp.getInstance().getCurrentTheme().isDefault()) {
+                ThemeBridgeAdapter.setTheme(bridge);
             }
 
             bridge.addListener("linkClicked", new LinkHandler(getActivity()) {

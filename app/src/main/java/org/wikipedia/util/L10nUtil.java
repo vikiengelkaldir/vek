@@ -3,7 +3,6 @@ package org.wikipedia.util;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.util.SparseArray;
@@ -29,7 +28,6 @@ import static java.util.Locale.TRADITIONAL_CHINESE;
 import static org.wikipedia.language.AppLanguageLookUpTable.CHINESE_LANGUAGE_CODE;
 import static org.wikipedia.language.AppLanguageLookUpTable.SIMPLIFIED_CHINESE_LANGUAGE_CODE;
 import static org.wikipedia.language.AppLanguageLookUpTable.TRADITIONAL_CHINESE_LANGUAGE_CODE;
-import static org.wikipedia.util.ConfigurationCompat.setLocale;
 
 /**
  * A collection of localization related methods.
@@ -95,9 +93,7 @@ public final class L10nUtil {
      * @param lang Wiki code for the language based on which to set direction
      */
     public static void setConditionalTextDirection(View view, String lang) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            view.setTextDirection(isLangRTL(lang) ? View.TEXT_DIRECTION_RTL : View.TEXT_DIRECTION_LTR);
-        }
+        view.setTextDirection(isLangRTL(lang) ? View.TEXT_DIRECTION_RTL : View.TEXT_DIRECTION_LTR);
     }
 
     /**
@@ -109,9 +105,7 @@ public final class L10nUtil {
      * @param lang Wiki code for the language based on which to set direction
      */
     public static void setConditionalLayoutDirection(View view, String lang) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            view.setLayoutDirection(isLangRTL(lang) ? View.LAYOUT_DIRECTION_RTL : View.LAYOUT_DIRECTION_LTR);
-        }
+        view.setLayoutDirection(isLangRTL(lang) ? View.LAYOUT_DIRECTION_RTL : View.LAYOUT_DIRECTION_LTR);
     }
 
     /**
@@ -166,7 +160,7 @@ public final class L10nUtil {
         Locale systemLocale = ConfigurationCompat.getLocale(config);
         setDesiredLocale(config, targetLocale);
         SparseArray<String> localizedStrings = getTargetStrings(strings, config);
-        setLocale(config, systemLocale);
+        config.setLocale(systemLocale);
         resetConfiguration(config);
         return localizedStrings;
     }
@@ -212,23 +206,37 @@ public final class L10nUtil {
         // And this might only happen in Chinese variant
 
         if (desiredLocale.getLanguage().equals(TRADITIONAL_CHINESE_LANGUAGE_CODE)) {
-            setLocale(config, TRADITIONAL_CHINESE);
+            config.setLocale(TRADITIONAL_CHINESE);
         } else if (desiredLocale.getLanguage().equals(SIMPLIFIED_CHINESE_LANGUAGE_CODE)) {
-            setLocale(config, SIMPLIFIED_CHINESE);
+            config.setLocale(SIMPLIFIED_CHINESE);
         } else if (desiredLocale.getLanguage().equals(CHINESE_LANGUAGE_CODE)) {
             // create a new Locale object to manage only "zh" language code based on its app language
             // code. e.g.: search "HK" article in "zh-hant" or "zh-hans" will get "zh" language code
             String appLanguageCode = WikipediaApp.getInstance().getAppLanguageCode();
             if (appLanguageCode.equals(TRADITIONAL_CHINESE_LANGUAGE_CODE)) {
-                setLocale(config, TRADITIONAL_CHINESE);
+                config.setLocale(TRADITIONAL_CHINESE);
             } else if (appLanguageCode.equals(SIMPLIFIED_CHINESE_LANGUAGE_CODE)) {
-                setLocale(config, SIMPLIFIED_CHINESE);
+                config.setLocale(SIMPLIFIED_CHINESE);
             } else {
-                setLocale(config, desiredLocale);
+                config.setLocale(desiredLocale);
             }
         } else {
-            setLocale(config, desiredLocale);
+            config.setLocale(desiredLocale);
         }
+    }
+
+    // TODO: remove this if we can get correct language counts from server
+    public static int getUpdatedLanguageCountIfNeeded(String getLanguageCode, int originalLanguageCount) {
+
+        int updatedLanguageCount = originalLanguageCount;
+
+        if (getLanguageCode.equals(CHINESE_LANGUAGE_CODE)) {
+            updatedLanguageCount = updatedLanguageCount + 2; // for both Traditional and Simplified
+        } else if (getLanguageCode.equals(TRADITIONAL_CHINESE_LANGUAGE_CODE) || getLanguageCode.equals(SIMPLIFIED_CHINESE_LANGUAGE_CODE)) {
+            updatedLanguageCount = updatedLanguageCount + 1;
+        }
+
+        return updatedLanguageCount;
     }
 
     private L10nUtil() {

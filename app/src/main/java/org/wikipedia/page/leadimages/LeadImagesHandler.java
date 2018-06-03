@@ -55,7 +55,6 @@ public class LeadImagesHandler {
 
     @NonNull private final PageFragment parentFragment;
     @NonNull private final CommunicationBridge bridge;
-    @NonNull private final ObservableWebView webView;
 
     @NonNull private final PageHeaderView pageHeaderView;
     private View image;
@@ -66,16 +65,17 @@ public class LeadImagesHandler {
                              @NonNull CommunicationBridge bridge,
                              @NonNull ObservableWebView webView,
                              @NonNull PageHeaderView pageHeaderView) {
-        this.pageHeaderView = pageHeaderView;
         this.parentFragment = parentFragment;
+
+        this.pageHeaderView = pageHeaderView;
+        this.pageHeaderView.setWebView(webView);
+
         this.bridge = bridge;
-        this.webView = webView;
+        webView.addOnScrollChangeListener(pageHeaderView);
 
         image = pageHeaderView.getImage();
 
         initDisplayDimensions();
-
-        initWebView();
 
         initArticleHeaderView();
 
@@ -240,15 +240,24 @@ public class LeadImagesHandler {
 
     private void initArticleHeaderView() {
         pageHeaderView.setOnImageLoadListener(new ImageLoadListener());
-        pageHeaderView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            @SuppressWarnings("checkstyle:parameternumber")
-            public void onLayoutChange(View v, int left, int top, int right, int bottom,
-                                       int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                setWebViewPaddingTop();
-            }
-        });
+        pageHeaderView.addOnLayoutChangeListener((View v, int left, int top, int right, int bottom,
+                                       int oldLeft, int oldTop, int oldRight, int oldBottom) -> setWebViewPaddingTop());
         pageHeaderView.setCallback(new PageHeaderView.Callback() {
+            @Override
+            public void onImageClicked() {
+                if (getPage() != null && isLeadImageEnabled()) {
+                    String imageName = getPage().getPageProperties().getLeadImageName();
+                    if (imageName != null) {
+                        String filename = "File:" + imageName;
+                        WikiSite wiki = getTitle().getWikiSite();
+                        getActivity().startActivityForResult(GalleryActivity.newIntent(getActivity(),
+                                parentFragment.getTitleOriginal(), filename, wiki,
+                                GalleryFunnel.SOURCE_LEAD_IMAGE),
+                                Constants.ACTIVITY_REQUEST_GALLERY);
+                    }
+                }
+            }
+
             @Override
             public void onDescriptionClicked() {
                 verifyDescriptionEditable();
@@ -278,12 +287,8 @@ public class LeadImagesHandler {
         if (!AccountUtil.isLoggedIn() && Prefs.getTotalAnonDescriptionsEdited() >= parentFragment.getResources().getInteger(R.integer.description_max_anon_edits)) {
             new AlertDialog.Builder(parentFragment.getContext())
                     .setMessage(R.string.description_edit_anon_limit)
-                    .setPositiveButton(R.string.menu_login, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            parentFragment.startActivity(LoginActivity.newIntent(parentFragment.getContext(), LoginFunnel.SOURCE_EDIT));
-                        }
-                    })
+                    .setPositiveButton(R.string.menu_login, (DialogInterface dialogInterface, int i) ->
+                            parentFragment.startActivity(LoginActivity.newIntent(parentFragment.getContext(), LoginFunnel.SOURCE_EDIT)))
                     .setNegativeButton(android.R.string.cancel, null)
                     .show();
         } else {
@@ -298,31 +303,6 @@ public class LeadImagesHandler {
         } else {
             parentFragment.startDescriptionEditActivity();
         }
-    }
-
-    private void initWebView() {
-        webView.addOnScrollChangeListener(pageHeaderView);
-
-        webView.addOnClickListener(new ObservableWebView.OnClickListener() {
-            @Override
-            public boolean onClick(float x, float y) {
-                // if the click event is within the area of the lead image, then the user
-                // must have wanted to click on the lead image!
-                if (getPage() != null && isLeadImageEnabled() && y < (image.getHeight() - webView.getScrollY())) {
-                    String imageName = getPage().getPageProperties().getLeadImageName();
-                    if (imageName != null) {
-                        String filename = "File:" + imageName;
-                        WikiSite wiki = getTitle().getWikiSite();
-                        getActivity().startActivityForResult(GalleryActivity.newIntent(getActivity(),
-                                parentFragment.getTitleOriginal(), filename, wiki,
-                                GalleryFunnel.SOURCE_LEAD_IMAGE),
-                                Constants.ACTIVITY_REQUEST_GALLERY);
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 
     private boolean isMainPage() {
@@ -349,15 +329,12 @@ public class LeadImagesHandler {
     private class ImageLoadListener implements FaceAndColorDetectImageView.OnImageLoadListener {
         @Override
         public void onImageLoaded(final int bmpHeight, @Nullable final PointF faceLocation, @ColorInt final int mainColor) {
-            pageHeaderView.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (isFragmentAdded()) {
-                        if (faceLocation != null) {
-                            pageHeaderView.setImageFocus(faceLocation);
-                        }
-                        startKenBurnsAnimation();
+            pageHeaderView.post(() -> {
+                if (isFragmentAdded()) {
+                    if (faceLocation != null) {
+                        pageHeaderView.setImageFocus(faceLocation);
                     }
+                    startKenBurnsAnimation();
                 }
             });
         }

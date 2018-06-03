@@ -19,7 +19,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.Gravity;
@@ -123,25 +122,19 @@ public class GalleryActivity extends BaseActivity implements LinkPreviewDialog.C
         return galleryCache;
     }
 
-    private View.OnClickListener licenseShortClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (v.getContentDescription() == null) {
-                return;
-            }
-            FeedbackUtil.showMessageAsPlainText((Activity) v.getContext(), v.getContentDescription());
+    private View.OnClickListener licenseShortClickListener = v -> {
+        if (v.getContentDescription() == null) {
+            return;
         }
+        FeedbackUtil.showMessageAsPlainText((Activity) v.getContext(), v.getContentDescription());
     };
 
-    private View.OnLongClickListener licenseLongClickListener = new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            String licenseUrl = (String) v.getTag();
-            if (!TextUtils.isEmpty(licenseUrl)) {
-                handleExternalLink(GalleryActivity.this, Uri.parse(resolveProtocolRelativeUrl(licenseUrl)));
-            }
-            return true;
+    private View.OnLongClickListener licenseLongClickListener = v -> {
+        String licenseUrl = (String) v.getTag();
+        if (!TextUtils.isEmpty(licenseUrl)) {
+            handleExternalLink(GalleryActivity.this, Uri.parse(resolveProtocolRelativeUrl(licenseUrl)));
         }
+        return true;
     };
 
     @NonNull
@@ -172,16 +165,21 @@ public class GalleryActivity extends BaseActivity implements LinkPreviewDialog.C
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gallery);
-        initToolbar();
+        setSupportActionBar(findViewById(R.id.gallery_toolbar));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
 
         toolbarContainer = findViewById(R.id.gallery_toolbar_container);
         infoContainer = findViewById(R.id.gallery_info_container);
-        setBackgroundGradient(infoContainer, Gravity.BOTTOM);
+
+        findViewById(R.id.gallery_toolbar_gradient)
+                .setBackground(GradientUtil.getPowerGradient(R.color.black26, Gravity.TOP));
+        findViewById(R.id.gallery_info_gradient)
+                .setBackground(GradientUtil.getPowerGradient(R.color.black38, Gravity.BOTTOM));
 
         progressBar = findViewById(R.id.gallery_progressbar);
 
         descriptionText = findViewById(R.id.gallery_description_text);
-        descriptionText.setShadowLayer(2, 1, 1, color(R.color.black54));
         descriptionText.setMovementMethod(linkMovementMethod);
 
         licenseIcon = findViewById(R.id.gallery_license_icon);
@@ -189,25 +187,16 @@ public class GalleryActivity extends BaseActivity implements LinkPreviewDialog.C
         licenseIcon.setOnLongClickListener(licenseLongClickListener);
 
         creditText = findViewById(R.id.gallery_credit_text);
-        creditText.setShadowLayer(2, 1, 1, color(R.color.black54));
 
         errorView = findViewById(R.id.view_gallery_error);
         ((ImageView) errorView.findViewById(R.id.view_wiki_error_icon))
                 .setColorFilter(color(R.color.base70));
         ((TextView) errorView.findViewById(R.id.view_wiki_error_text))
                 .setTextColor(color(R.color.base70));
-        errorView.setBackClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        errorView.setRetryClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                errorView.setVisibility(View.GONE);
-                loadGalleryContent();
-            }
+        errorView.setBackClickListener(v -> onBackPressed());
+        errorView.setRetryClickListener(v -> {
+            errorView.setVisibility(View.GONE);
+            loadGalleryContent();
         });
 
         if (getIntent().hasExtra(EXTRA_PAGETITLE)) {
@@ -248,12 +237,7 @@ public class GalleryActivity extends BaseActivity implements LinkPreviewDialog.C
                 ft.commitAllowingStateLoss();
             }
         }
-        toolbarContainer.post(new Runnable() {
-            @Override
-            public void run() {
-                setControlsShowing(controlsShowing);
-            }
-        });
+        toolbarContainer.post(() -> setControlsShowing(controlsShowing));
         loadGalleryContent();
     }
 
@@ -393,21 +377,21 @@ public class GalleryActivity extends BaseActivity implements LinkPreviewDialog.C
         public void onUrlClick(@NonNull String url, @Nullable String notUsed) {
             L.v("Link clicked was " + url);
             url = resolveProtocolRelativeUrl(url);
-            WikiSite appWikiSite = app.getWikiSite();
             if (url.startsWith("/wiki/")) {
-                PageTitle title = appWikiSite.titleForInternalLink(url);
+                PageTitle title = app.getWikiSite().titleForInternalLink(url);
                 showLinkPreview(title);
             } else {
                 Uri uri = Uri.parse(url);
                 String authority = uri.getAuthority();
                 if (authority != null && WikiSite.supportedAuthority(authority)
                     && uri.getPath().startsWith("/wiki/")) {
-                    PageTitle title = appWikiSite.titleForUri(uri);
+                    PageTitle title = new WikiSite(uri).titleForUri(uri);
                     showLinkPreview(title);
                 } else {
                     // if it's a /w/ URI, turn it into a full URI and go external
                     if (url.startsWith("/w/")) {
-                        url = String.format("%1$s://%2$s", appWikiSite.scheme(), appWikiSite.authority()) + url;
+                        url = String.format("%1$s://%2$s", app.getWikiSite().scheme(),
+                                app.getWikiSite().authority()) + url;
                     }
                     handleExternalLink(GalleryActivity.this, Uri.parse(url));
                 }
@@ -626,18 +610,6 @@ public class GalleryActivity extends BaseActivity implements LinkPreviewDialog.C
      */
     private static int getLicenseIcon(GalleryItem item) {
         return item.getLicense().getLicenseIcon();
-    }
-
-    private void setBackgroundGradient(View view, int gravity) {
-        view.setBackground(GradientUtil.getPowerGradient(R.color.black54, gravity));
-    }
-
-    private void initToolbar() {
-        final Toolbar toolbar = findViewById(R.id.gallery_toolbar);
-        setBackgroundGradient(toolbar, Gravity.TOP);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("");
     }
 
     /**

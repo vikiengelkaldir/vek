@@ -8,10 +8,11 @@ import android.net.Uri;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
+import android.util.AttributeSet;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.wikipedia.R;
@@ -20,14 +21,28 @@ import org.wikipedia.views.FaceAndColorDetectImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CardLargeHeaderView extends RelativeLayout {
+public class CardLargeHeaderView extends ConstraintLayout {
     @BindView(R.id.view_card_header_large_background) View backgroundView;
     @BindView(R.id.view_card_header_large_image) FaceAndColorDetectImageView imageView;
     @BindView(R.id.view_card_header_large_title) TextView titleView;
+    @BindView(R.id.view_card_header_large_subtitle) TextView subtitleView;
 
     public CardLargeHeaderView(Context context) {
         super(context);
+        init();
+    }
 
+    public CardLargeHeaderView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    public CardLargeHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init() {
         resetBackgroundColor();
         inflate(getContext(), R.layout.view_card_header_large, this);
         ButterKnife.bind(this);
@@ -44,6 +59,11 @@ public class CardLargeHeaderView extends RelativeLayout {
 
     @NonNull public CardLargeHeaderView setTitle(@Nullable CharSequence title) {
         titleView.setText(title);
+        return this;
+    }
+
+    @NonNull public CardLargeHeaderView setSubtitle(@Nullable CharSequence subtitle) {
+        subtitleView.setText(String.format(getResources().getString(R.string.view_continue_reading_card_subtitle_read_date), subtitle));
         return this;
     }
 

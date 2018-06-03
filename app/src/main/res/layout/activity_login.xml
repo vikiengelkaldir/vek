@@ -30,8 +30,8 @@
                     android:text="@string/login_dont_have_account" />
 
                 <TextView
-                    android:id="@+id/login_create_ccount_button"
-                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:id="@+id/login_create_account_button"
+                    style="@style/TransparentButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
@@ -61,7 +61,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="flagNoExtractUi"
-                        android:inputType="textVisiblePassword|textNoSuggestions"
+                        android:inputType="textNoSuggestions"
                         android:maxLines="1" />
                 </android.support.design.widget.TextInputLayout>
 

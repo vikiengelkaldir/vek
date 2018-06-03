@@ -22,7 +22,6 @@
             android:layout_width="150dp"
             android:layout_height="148dp"
             android:contentDescription="@null"
-            android:visibility="gone"
             app:srcCompat="@drawable/ic_search_splash" />
 
         <TextView
@@ -32,10 +31,8 @@
             android:layout_marginTop="32dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:gravity="center"
             android:text="@string/search_empty_message"
-            android:visibility="gone"
-        style="@style/MaterialMediumSecondaryCaption"/>
+            style="@style/MaterialMediumSecondaryCaption"/>
     </LinearLayout>
 
     <LinearLayout

@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 """
 Script that builds one or more release apks.
 
@@ -41,7 +41,7 @@ import sys
 
 PATH_PREFIX = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 GRADLEW = './gradlew'
-VERSION_START = '2.6'
+VERSION_START = '2.7'
 
 
 def p(*path_fragments):
@@ -159,6 +159,9 @@ def find_output_apk_for(label, version_code):
 def main():
     parser = argparse.ArgumentParser()
     group = parser.add_mutually_exclusive_group()
+    group.add_argument('--alpha',
+                       help='Step 1: Alpha for testing.',
+                       action='store_true')
     group.add_argument('--beta',
                        help='Step 1: Google Play Beta. git checkout BUMPTAG first!',
                        action='store_true')
@@ -176,7 +179,10 @@ def main():
                         action='store_true')
     args = parser.parse_args()
     custom_channel = 'ignore'
-    if args.beta:
+    if args.alpha:
+        flavors = ['alpha']
+        targets = flavors
+    elif args.beta:
         flavors = ['beta']
         targets = flavors
     elif args.prod:

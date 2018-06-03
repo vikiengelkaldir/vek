@@ -23,6 +23,7 @@
         <item name="searchViewStyle">@style/SearchViewStyle</item>
         <item name="autoCompleteTextViewStyle">@style/SearchViewEditTextStyle</item>
         <item name="android:listViewStyle">@style/ListView</item>
+        <item name="android:textViewStyle">@style/RtlAwareTextView</item>
     </style>
 
     <style name="AppTheme.Page">
@@ -30,6 +31,7 @@
         <item name="searchViewStyle">@style/PageSearchViewStyle</item>
         <item name="autoCompleteTextViewStyle">@style/PageSearchViewEditTextStyle</item>
         <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_themed_24dp</item>
+        <item name="actionOverflowButtonStyle">@style/ActionButtonOverflow</item>
     </style>
 
     <style name="AppTheme.ActionBar">
@@ -58,6 +60,7 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="colorAccent">@color/accent50</item>
     </style>
 
     <style name="AppTheme.GreenActionMode">
@@ -165,9 +168,13 @@
         <item name="android:dividerHeight">0dp</item>
     </style>
 
-    <style name="RtlAwareTextView" tools:targetApi="17">
-        <item name="android:textDirection">anyRtl</item>
+    <style name="RtlAwareTextView" parent="@android:style/Widget.TextView">
         <item name="android:textAlignment">viewStart</item>
+    </style>
+
+    <style name="TextViewCentered" parent="@android:style/Widget.TextView">
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="OverflowMenuItem" parent="@android:style/TextAppearance">
@@ -194,6 +201,7 @@
         <item name="android:paddingRight">16dp</item>
         <item name="backgroundTint">@color/color_state_green</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
     <style name="App.Button.Blue">
@@ -202,6 +210,10 @@
 
     <style name="App.Button.Gray">
         <item name="backgroundTint">@color/color_state_gray</item>
+    </style>
+
+    <style name="App.Button.Black">
+        <item name="backgroundTint">@color/color_state_black</item>
     </style>
 
     <style name="App.Button.White">
@@ -216,8 +228,12 @@
         <item name="android:minHeight">36dp</item>
     </style>
 
+    <style name="TransparentButton" parent="@style/Widget.AppCompat.Button.Borderless">
+        <item name="android:textAlignment">center</item>
+    </style>
+
     <style name="OnboardingSwitch">
-        <item name="colorControlActivated">@color/green50</item>
+        <item name="colorControlActivated">@color/accent75</item>
         <item name="colorSwitchThumbNormal">@color/base50</item>
         <item name="android:colorForeground">@color/base30</item>
     </style>
@@ -243,7 +259,7 @@
 
     <!-- Preferences -->
 
-    <style name="AppPreferenceTheme" parent="PreferenceThemeOverlay.v14.Material" tools:targetApi="17">
+    <style name="AppPreferenceTheme" parent="PreferenceThemeOverlay.v14.Material" >
         <item name="preferenceFragmentCompatStyle">@style/AppPreferenceFragment</item>
         <item name="android:listPreferredItemPaddingLeft">@dimen/activity_horizontal_margin</item>
         <item name="android:listPreferredItemPaddingStart">@dimen/activity_horizontal_margin</item>
@@ -273,29 +289,22 @@
         <item name="android:maxLength">11</item>
     </style>
 
-    <style name="HexIntPreference" parent="IntPreference">
-        <item name="android:inputType">textVisiblePassword</item>
-        <item name="android:digits">0123456789abcdef</item>
-        <item name="radix">16</item>
-        <item name="summaryFormat">%08x</item>
-        <item name="android:maxLength">8</item>
-    </style>
-
     <style name="SimpleDraweeViewPlaceholder">
         <item name="actualImageScaleType">centerCrop</item>
         <item name="placeholderImage">@drawable/checkerboard</item>
         <item name="placeholderImageScaleType">centerCrop</item>
         <item name="failureImage">@drawable/checkerboard</item>
         <item name="failureImageScaleType">centerCrop</item>
+        <item name="fadeDuration">0</item>
 
         <!-- Draw translucent images on a white background. -->
         <item name="backgroundImage">@android:color/white</item>
     </style>
 
     <style name="SimpleDraweeViewPlaceholder.Article">
-        <item name="placeholderImage">@drawable/ic_image_gray_24dp</item>
+        <item name="placeholderImage">@drawable/ic_image_gray_opaque_24dp</item>
         <item name="placeholderImageScaleType">fitCenter</item>
-        <item name="failureImage">@drawable/ic_image_gray_24dp</item>
+        <item name="failureImage">@drawable/ic_image_gray_opaque_24dp</item>
         <item name="failureImageScaleType">fitCenter</item>
     </style>
 
@@ -318,13 +327,15 @@
     </style>
 
     <style name="MaterialLargePrimaryTitle">
+        <item name="android:textAlignment">center</item>
         <item name="android:textSize">20sp</item>
         <item name="android:lineSpacingExtra">8sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">?attr/material_theme_secondary_color</item>
+        <item name="android:textColor">?attr/material_theme_primary_color</item>
     </style>
 
     <style name="MaterialMediumSecondaryCaption">
+        <item name="android:textAlignment">center</item>
         <item name="android:textSize">16sp</item>
         <item name="android:lineSpacingExtra">8sp</item>
         <item name="android:textColor">?attr/material_theme_secondary_color</item>

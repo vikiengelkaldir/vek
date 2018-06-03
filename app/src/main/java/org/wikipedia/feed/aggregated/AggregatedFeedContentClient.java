@@ -13,6 +13,7 @@ import org.wikipedia.feed.model.Card;
 import org.wikipedia.feed.model.UtcDate;
 import org.wikipedia.feed.mostread.MostReadListCard;
 import org.wikipedia.feed.news.NewsListCard;
+import org.wikipedia.feed.onthisday.OnThisDayCard;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.util.DateUtil;
 import org.wikipedia.util.log.L;
@@ -30,12 +31,95 @@ import retrofit2.http.Path;
 
 import static org.wikipedia.Constants.ACCEPT_HEADER_PREFIX;
 
-public class AggregatedFeedContentClient implements FeedClient {
-
+public class AggregatedFeedContentClient {
     @Nullable private Call<AggregatedFeedContent> call;
+    @Nullable private AggregatedFeedContent aggregatedResponse;
+    private int aggregatedResponseAge = -1;
 
-    @Override
-    public void request(@NonNull Context context, @NonNull WikiSite wiki, int age, @NonNull Callback cb) {
+    public static class OnThisDayFeed extends BaseClient {
+        public OnThisDayFeed(@NonNull AggregatedFeedContentClient aggregatedClient) {
+            super(aggregatedClient);
+        }
+
+        @Override
+        void getCardFromResponse(@NonNull AggregatedFeedContent content, @NonNull WikiSite wiki,
+                                 int age, @NonNull List<Card> outCards) {
+            if (content.onthisday() != null && !content.onthisday().isEmpty()) {
+                outCards.add(new OnThisDayCard(content.onthisday(), wiki, age));
+            }
+        }
+    }
+    public static class InTheNews extends BaseClient {
+        public InTheNews(@NonNull AggregatedFeedContentClient aggregatedClient) {
+            super(aggregatedClient);
+        }
+
+        @Override
+        void getCardFromResponse(@NonNull AggregatedFeedContent content, @NonNull WikiSite wiki,
+                                 int age, @NonNull List<Card> outCards) {
+            // todo: remove age check when news endpoint provides dated content, T139481.
+            if (age == 0 && content.news() != null) {
+                outCards.add(new NewsListCard(content.news(), age, wiki));
+            }
+        }
+    }
+
+    public static class FeaturedArticle extends BaseClient {
+        public FeaturedArticle(@NonNull AggregatedFeedContentClient aggregatedClient) {
+            super(aggregatedClient);
+        }
+
+        @Override
+        void getCardFromResponse(@NonNull AggregatedFeedContent content, @NonNull WikiSite wiki,
+                                 int age, @NonNull List<Card> outCards) {
+            if (content.tfa() != null) {
+                outCards.add(new FeaturedArticleCard(content.tfa(), age, wiki));
+            }
+        }
+    }
+
+    public static class TrendingArticles extends BaseClient {
+        public TrendingArticles(@NonNull AggregatedFeedContentClient aggregatedClient) {
+            super(aggregatedClient);
+        }
+
+        @Override
+        void getCardFromResponse(@NonNull AggregatedFeedContent content, @NonNull WikiSite wiki,
+                                 int age, @NonNull List<Card> outCards) {
+            if (content.mostRead() != null) {
+                outCards.add(new MostReadListCard(content.mostRead(), wiki));
+            }
+        }
+    }
+
+    public static class FeaturedImage extends BaseClient {
+        public FeaturedImage(@NonNull AggregatedFeedContentClient aggregatedClient) {
+            super(aggregatedClient);
+        }
+
+        @Override
+        void getCardFromResponse(@NonNull AggregatedFeedContent content, @NonNull WikiSite wiki,
+                                 int age, @NonNull List<Card> outCards) {
+            if (content.potd() != null) {
+                outCards.add(new FeaturedImageCard(content.potd(), age, wiki));
+            }
+        }
+    }
+
+    void setAggregatedResponse(@Nullable AggregatedFeedContent content, int age) {
+        aggregatedResponse = content;
+        this.aggregatedResponseAge = age;
+    }
+
+    @Nullable AggregatedFeedContent getCurrentResponse() {
+        return aggregatedResponse;
+    }
+
+    int getCurrentAge() {
+        return aggregatedResponseAge;
+    }
+
+    void requestAggregated(@NonNull WikiSite wiki, int age, @NonNull retrofit2.Callback<AggregatedFeedContent> cb) {
         cancel();
         UtcDate date = DateUtil.getUtcRequestDateFor(age);
         String endpoint = String.format(Locale.ROOT, Prefs.getRestbaseUriFormat(), wiki.scheme(),
@@ -43,10 +127,9 @@ public class AggregatedFeedContentClient implements FeedClient {
         Retrofit retrofit = RetrofitFactory.newInstance(endpoint, wiki);
         AggregatedFeedContentClient.Service service = retrofit.create(Service.class);
         call = service.get(date.year(), date.month(), date.date());
-        call.enqueue(new CallbackAdapter(cb, wiki, age));
+        call.enqueue(cb);
     }
 
-    @Override
     public void cancel() {
         if (call == null) {
             return;
@@ -72,40 +155,63 @@ public class AggregatedFeedContentClient implements FeedClient {
                                         @Path("day") String day);
     }
 
-    private static class CallbackAdapter implements retrofit2.Callback<AggregatedFeedContent> {
-        @NonNull private final Callback cb;
-        @NonNull private final WikiSite wiki;
-        private final int age;
+    private abstract static class BaseClient implements FeedClient, retrofit2.Callback<AggregatedFeedContent> {
+        @NonNull private AggregatedFeedContentClient aggregatedClient;
+        @Nullable private Callback cb;
+        private WikiSite wiki;
+        private int age;
 
-        CallbackAdapter(@NonNull Callback cb, @NonNull WikiSite wiki, int age) {
+        BaseClient(@NonNull AggregatedFeedContentClient aggregatedClient) {
+            this.aggregatedClient = aggregatedClient;
+        }
+
+        abstract void getCardFromResponse(@NonNull AggregatedFeedContent response,
+                                          @NonNull WikiSite wiki, int age, @NonNull List<Card> outCards);
+
+        @Override
+        public void request(@NonNull Context context, @NonNull WikiSite wiki, int age, @NonNull Callback cb) {
             this.cb = cb;
-            this.wiki = wiki;
             this.age = age;
+            if (aggregatedClient.getCurrentAge() == age
+                    && aggregatedClient.getCurrentResponse() != null
+                    && wiki.equals(this.wiki)) {
+                List<Card> cards = new ArrayList<>();
+                getCardFromResponse(aggregatedClient.getCurrentResponse(), wiki, age, cards);
+                cb.success(cards);
+            } else {
+                aggregatedClient.requestAggregated(wiki, age, this);
+            }
+            this.wiki = wiki;
         }
 
-        @Override public void onResponse(Call<AggregatedFeedContent> call,
-                                         Response<AggregatedFeedContent> response) {
-            List<Card> cards = new ArrayList<>();
+        @Override
+        public void cancel() {
+        }
+
+        @Override public void onResponse(@NonNull Call<AggregatedFeedContent> call,
+                                         @NonNull Response<AggregatedFeedContent> response) {
             AggregatedFeedContent content = response.body();
-            // todo: remove age check when news endpoint provides dated content, T139481.
-            if (age == 0 && content.news() != null) {
-                cards.add(new NewsListCard(content.news(), age, wiki));
+            if (content == null) {
+                if (cb != null) {
+                    cb.error(new RuntimeException("Aggregated response was not in the correct format."));
+                }
+                return;
             }
-            if (content.tfa() != null) {
-                cards.add(new FeaturedArticleCard(content.tfa(), age, wiki));
+            aggregatedClient.setAggregatedResponse(content, age);
+            List<Card> cards = new ArrayList<>();
+            if (aggregatedClient.getCurrentResponse() != null) {
+                getCardFromResponse(aggregatedClient.getCurrentResponse(), wiki, age, cards);
             }
-            if (content.mostRead() != null) {
-                cards.add(new MostReadListCard(content.mostRead(), wiki));
+            if (cb != null) {
+                cb.success(cards);
             }
-            if (content.potd() != null) {
-                cards.add(new FeaturedImageCard(content.potd(), age, wiki));
-            }
-            cb.success(cards);
         }
 
-        @Override public void onFailure(Call<AggregatedFeedContent> call, Throwable caught) {
+        @Override public void onFailure(@NonNull Call<AggregatedFeedContent> call, @NonNull Throwable caught) {
             L.v(caught);
-            cb.error(caught);
+            if (cb != null) {
+                cb.error(caught);
+            }
         }
     }
 }

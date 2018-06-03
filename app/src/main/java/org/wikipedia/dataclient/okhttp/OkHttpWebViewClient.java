@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.annotation.VisibleForTesting;
 import android.view.KeyEvent;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -16,11 +15,9 @@ import org.wikipedia.WikipediaApp;
 import org.wikipedia.dataclient.WikiSite;
 import org.wikipedia.util.log.L;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +36,6 @@ public abstract class OkHttpWebViewClient extends WebViewClient {
 
     private static final List<String> SUPPORTED_SCHEMES = Arrays.asList("http", "https");
     private static final String HEADER_CONTENT_TYPE = "content-type";
-    private static final String HEADER_CONTENT_ENCODING = "content-encoding";
-    private static final String CONTENT_TYPE_SVG = "image/svg+xml";
     private static final String CONTENT_TYPE_OGG = "application/ogg";
 
     @NonNull public abstract WikiSite getWikiSite();
@@ -53,9 +48,11 @@ public abstract class OkHttpWebViewClient extends WebViewClient {
 
         try {
             Response rsp = request(url);
-            return new WebResourceResponse(rsp.header(HEADER_CONTENT_TYPE),
-                    rsp.header(HEADER_CONTENT_ENCODING), getInputStream(rsp));
-        } catch (IOException e) {
+            // noinspection ConstantConditions
+            return new WebResourceResponse(rsp.body().contentType().type() + "/" + rsp.body().contentType().subtype(),
+                    rsp.body().contentType().charset(Charset.defaultCharset()).name(),
+                    getInputStream(rsp));
+        } catch (Exception e) {
             L.e(e);
         }
         return null;
@@ -70,12 +67,14 @@ public abstract class OkHttpWebViewClient extends WebViewClient {
 
         try {
             Response rsp = request(request.getUrl().toString());
-            return new WebResourceResponse(rsp.header(HEADER_CONTENT_TYPE),
-                    rsp.header(HEADER_CONTENT_ENCODING), rsp.code(),
+            // noinspection ConstantConditions
+            return new WebResourceResponse(rsp.body().contentType().type() + "/" + rsp.body().contentType().subtype(),
+                    rsp.body().contentType().charset(Charset.defaultCharset()).name(),
+                    rsp.code(),
                     StringUtils.defaultIfBlank(rsp.message(), "Unknown error"),
                     toMap(rsp.headers()),
                     getInputStream(rsp));
-        } catch (IOException e) {
+        } catch (Exception e) {
             L.e(e);
         }
         return null;
@@ -107,37 +106,11 @@ public abstract class OkHttpWebViewClient extends WebViewClient {
     @NonNull private InputStream getInputStream(@NonNull Response rsp) throws IOException {
         InputStream inputStream = rsp.body().byteStream();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-                && CONTENT_TYPE_OGG.equals(rsp.header(HEADER_CONTENT_TYPE))) {
+        if (CONTENT_TYPE_OGG.equals(rsp.header(HEADER_CONTENT_TYPE))) {
             inputStream = new AvailableInputStream(rsp.body().byteStream(),
                     rsp.body().contentLength());
-        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT
-                && CONTENT_TYPE_SVG.equals(rsp.header(HEADER_CONTENT_TYPE))) {
-            return transformSvgFile(inputStream);
         }
 
         return inputStream;
-    }
-
-    /*
-    T107775
-    In API 18 and below, the system WebView does not perform correct rendering of SVG
-    files that specify dimensions with "ex" units. This code rewrites usages of "ex"
-    units with "em" before the SVG arrives at the WebView.
-    */
-    @VisibleForTesting
-    @NonNull
-    static InputStream transformSvgFile(@NonNull InputStream inputStream) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = reader.readLine()) != null) {
-            if (line.contains("<svg")) {
-                line = line.replace("ex\"", "em\"").replace("ex;", "em;");
-            }
-            sb.append(line);
-        }
-        inputStream.close();
-        return new ByteArrayInputStream(sb.toString().getBytes());
     }
 }

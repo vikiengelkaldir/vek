@@ -8,8 +8,8 @@ import android.view.View;
 import org.wikipedia.page.ViewHideHandler;
 
 public class PageActionToolbarHideHandler extends ViewHideHandler {
-    public PageActionToolbarHideHandler(@NonNull View pageActions, @Nullable View anchoredView) {
-        super(pageActions, anchoredView, Gravity.BOTTOM);
+    public PageActionToolbarHideHandler(@NonNull View hideableView, @Nullable View anchoredView) {
+        super(hideableView, anchoredView, Gravity.BOTTOM);
     }
 
     @Override

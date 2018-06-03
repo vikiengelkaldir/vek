@@ -8,11 +8,11 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.wikipedia.Constants;
 import org.wikipedia.R;
 import org.wikipedia.analytics.ReadingListsFunnel;
 import org.wikipedia.concurrency.CallbackTask;
@@ -21,18 +21,15 @@ import org.wikipedia.model.EnumCodeMap;
 import org.wikipedia.onboarding.PrefsOnboardingStateMachine;
 import org.wikipedia.page.ExtendedBottomSheetDialogFragment;
 import org.wikipedia.page.PageTitle;
-import org.wikipedia.readinglist.page.ReadingListPage;
-import org.wikipedia.readinglist.page.database.ReadingListDaoProxy;
-import org.wikipedia.readinglist.sync.ReadingListSynchronizer;
+import org.wikipedia.readinglist.database.ReadingList;
+import org.wikipedia.readinglist.database.ReadingListDbHelper;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.util.DimenUtil;
 import org.wikipedia.util.FeedbackUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AddToReadingListDialog extends ExtendedBottomSheetDialogFragment {
     public enum InvokeSource implements EnumCode {
@@ -43,7 +40,9 @@ public class AddToReadingListDialog extends ExtendedBottomSheetDialogFragment {
         FEED(4),
         NEWS_ACTIVITY(5),
         READING_LIST_ACTIVITY(6),
-        MOST_READ_ACTIVITY(7);
+        MOST_READ_ACTIVITY(7),
+        RANDOM_ACTIVITY(8),
+        ON_THIS_DAY_ACTIVITY(9);
 
         private static final EnumCodeMap<InvokeSource> MAP = new EnumCodeMap<>(InvokeSource.class);
 
@@ -69,7 +68,9 @@ public class AddToReadingListDialog extends ExtendedBottomSheetDialogFragment {
     private View onboardingButton;
     private InvokeSource invokeSource;
     private CreateButtonClickListener createClickListener = new CreateButtonClickListener();
-    private ReadingLists readingLists = new ReadingLists();
+
+    private List<ReadingList> readingLists = new ArrayList<>();
+
     @Nullable private DialogInterface.OnDismissListener dismissListener;
     private ReadingListItemCallback listItemCallback = new ReadingListItemCallback();
 
@@ -168,27 +169,19 @@ public class AddToReadingListDialog extends ExtendedBottomSheetDialogFragment {
     }
 
     private void updateLists() {
-        ReadingList.DAO.queryMruLists(null, new CallbackTask.DefaultCallback<List<ReadingList>>() {
-            @Override public void success(List<ReadingList> rows) {
-                readingLists.set(rows);
-                readingLists.sort(Prefs.getReadingListSortMode(ReadingLists.SORT_BY_NAME_ASC));
-                adapter.notifyDataSetChanged();
-                for (ReadingList list : readingLists.get()) {
-                    updateListDetailsAsync(list);
-                }
+        CallbackTask.execute(new CallbackTask.Task<List<ReadingList>>() {
+            @Override public List<ReadingList> execute() {
+                return ReadingListDbHelper.instance().getAllLists();
             }
-        });
-    }
-
-    private void updateListDetailsAsync(@NonNull ReadingList list) {
-        ReadingListPageDetailFetcher.updateInfo(list, new ReadingListPageDetailFetcher.Callback() {
-            @Override public void success() {
-                if (!isAdded()) {
+        }, new CallbackTask.DefaultCallback<List<ReadingList>>() {
+            @Override
+            public void success(List<ReadingList> lists) {
+                if (getActivity() == null) {
                     return;
                 }
+                readingLists = lists;
+                ReadingList.sort(readingLists, Prefs.getReadingListSortMode(ReadingList.SORT_BY_NAME_ASC));
                 adapter.notifyDataSetChanged();
-            }
-            @Override public void failure(Throwable e) {
             }
         });
     }
@@ -196,110 +189,99 @@ public class AddToReadingListDialog extends ExtendedBottomSheetDialogFragment {
     private class CreateButtonClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            showCreateListDialog();
+            if (readingLists.size() >= Constants.MAX_READING_LISTS_LIMIT) {
+                String message = getString(R.string.reading_lists_limit_message);
+                dismiss();
+                FeedbackUtil.makeSnackbar(getActivity(), message, FeedbackUtil.LENGTH_DEFAULT).show();
+            } else {
+                showCreateListDialog();
+            }
         }
     }
 
     private void showCreateListDialog() {
         String title = getString(R.string.reading_list_name_sample);
-        long now = System.currentTimeMillis();
-        final ReadingList list = ReadingList
-                .builder()
-                .key(ReadingListDaoProxy.listKey(title))
-                .title(title)
-                .mtime(now)
-                .atime(now)
-                .description(null)
-                .pages(new ArrayList<ReadingListPage>())
-                .build();
-
-        ReadingListTitleDialog.readingListTitleDialog(getContext(), list.getTitle(),
-                readingLists.getTitles(), new ReadingListTitleDialog.Callback() {
-            @Override
-            public void onSuccess(@NonNull CharSequence text) {
-                list.setTitle(text.toString());
-                ReadingList.DAO.addList(list);
-                addAndDismiss(list, titles);
-            }
-        }).show();
+        List<String> existingTitles = new ArrayList<>();
+        for (ReadingList tempList : readingLists) {
+            existingTitles.add(tempList.title());
+        }
+        ReadingListTitleDialog.readingListTitleDialog(getContext(), title,
+                existingTitles, text -> {
+                    ReadingList list = ReadingListDbHelper.instance().createList(text.toString(), "");
+                    addAndDismiss(list, titles);
+                }).show();
     }
 
     private void addAndDismiss(final ReadingList readingList, final PageTitle title) {
-        final ReadingListPage page = findOrCreatePage(readingList, title);
-        ReadingList.DAO.listContainsTitleAsync(readingList, page, new CallbackTask.DefaultCallback<Boolean>() {
-            @Override public void success(Boolean contains) {
-                if (isAdded()) {
-                    String message;
-                    if (contains) {
-                        message = getString(R.string.reading_list_already_exists);
-                    } else {
-                        message = TextUtils.isEmpty(readingList.getTitle())
-                                ? getString(R.string.reading_list_added_to_unnamed)
-                                : String.format(getString(R.string.reading_list_added_to_named),
-                                readingList.getTitle());
-                        new ReadingListsFunnel(title.getWikiSite()).logAddToList(readingList, readingLists.size(), invokeSource);
-                        ReadingList.DAO.makeListMostRecent(readingList);
-                    }
-                    showViewListSnackBar(readingList, message);
-                    ReadingList.DAO.addTitleToList(readingList, page, false);
-                    ReadingListSynchronizer.instance().bumpRevAndSync();
-                    dismiss();
+
+        if (readingList.pages().size() >= Constants.MAX_READING_LIST_ARTICLE_LIMIT) {
+            String message = String.format(getString(R.string.reading_list_article_limit_message), readingList.title());
+            FeedbackUtil.makeSnackbar(getActivity(), message, FeedbackUtil.LENGTH_DEFAULT).show();
+            dismiss();
+            return;
+        }
+
+        CallbackTask.execute(() -> ReadingListDbHelper.instance().pageExistsInList(readingList, title), new CallbackTask.DefaultCallback<Boolean>() {
+            @Override
+            public void success(Boolean exists) {
+                if (!isAdded()) {
+                    return;
                 }
+                String message;
+                if (exists) {
+                    message = getString(R.string.reading_list_already_exists);
+                    showViewListSnackBar(readingList, message);
+
+                } else {
+                    message = String.format(getString(R.string.reading_list_added_to_named), readingList.title());
+                    new ReadingListsFunnel(title.getWikiSite()).logAddToList(readingList, readingLists.size(), invokeSource);
+
+                    ReadingListDbHelper.instance().addPageToList(readingList, title, true);
+                    showViewListSnackBar(readingList, message);
+
+                }
+                dismiss();
             }
         });
     }
 
     private void addAndDismiss(final ReadingList readingList, final List<PageTitle> titles) {
+
+        if ((readingList.pages().size() + titles.size()) > Constants.MAX_READING_LIST_ARTICLE_LIMIT) {
+            String message = String.format(getString(R.string.reading_list_article_limit_message), readingList.title());
+            FeedbackUtil.makeSnackbar(getActivity(), message, FeedbackUtil.LENGTH_DEFAULT).show();
+            dismiss();
+            return;
+        }
+
         if (titles.size() == 1) {
             addAndDismiss(readingList, titles.get(0));
             return;
         }
-        final Map<String, ReadingListPage> pages = new HashMap<>();
-        for (PageTitle title : titles) {
-            ReadingListPage page = findOrCreatePage(readingList, title);
-            pages.put(page.key(), page);
-        }
-        ReadingList.DAO.titlesNotInListAsync(readingList.key(), new ArrayList<>(pages.keySet()),
-                new CallbackTask.DefaultCallback<List<String>>() {
-            @Override public void success(List<String> result) {
-                if (isAdded()) {
-                    String message;
-                    if (result.size() == 0) {
-                        message = getString(R.string.reading_list_already_contains_selection);
-                    } else {
-                        message = TextUtils.isEmpty(readingList.getTitle())
-                                ? String.format(getString(R.string.reading_list_added_articles_list_untitled), result.size())
-                                : String.format(getString(R.string.reading_list_added_articles_list_titled), result.size(), readingList.getTitle());
-                        new ReadingListsFunnel().logAddToList(readingList, readingLists.size(), invokeSource);
-                        ReadingList.DAO.makeListMostRecent(readingList);
-                    }
-                    showViewListSnackBar(readingList, message);
-                    for (String key : result) {
-                        ReadingList.DAO.addTitleToList(readingList, pages.get(key), false);
-                    }
-                    ReadingListSynchronizer.instance().bumpRevAndSync();
-                    dismiss();
+
+        CallbackTask.execute(() -> ReadingListDbHelper.instance().addPagesToListIfNotExist(readingList, titles), new CallbackTask.DefaultCallback<Integer>() {
+            @Override
+            public void success(Integer numAdded) {
+                if (!isAdded()) {
+                    return;
                 }
+                String message;
+                if (numAdded == 0) {
+                    message = getString(R.string.reading_list_already_contains_selection);
+                } else {
+                    message = String.format(getString(R.string.reading_list_added_articles_list_titled), numAdded,
+                            readingList.title());
+                    new ReadingListsFunnel().logAddToList(readingList, readingLists.size(), invokeSource);
+                }
+                showViewListSnackBar(readingList, message);
+                dismiss();
             }
         });
     }
 
-    private void showViewListSnackBar(@NonNull final ReadingList readingList, @NonNull String message) {
+    private void showViewListSnackBar(@NonNull final ReadingList list, @NonNull String message) {
         FeedbackUtil.makeSnackbar(getActivity(), message, FeedbackUtil.LENGTH_DEFAULT)
-                .setAction(R.string.reading_list_added_view_button, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        v.getContext().startActivity(ReadingListActivity.newIntent(v.getContext(), readingList));
-                    }
-                }).show();
-    }
-
-    @NonNull private ReadingListPage findOrCreatePage(ReadingList readingList, PageTitle title) {
-        ReadingListPage page = ReadingListData.instance().findPageInAnyList(ReadingListDaoProxy.key(title));
-        if (page == null) {
-            page = ReadingListDaoProxy.page(readingList, title);
-        }
-        return page;
+                .setAction(R.string.reading_list_added_view_button, v -> v.getContext().startActivity(ReadingListActivity.newIntent(v.getContext(), list))).show();
     }
 
     private class ReadingListItemCallback implements ReadingListItemView.Callback {
@@ -309,11 +291,11 @@ public class AddToReadingListDialog extends ExtendedBottomSheetDialogFragment {
         }
 
         @Override
-        public void onRename(@NonNull final ReadingList readingList) {
+        public void onRename(@NonNull ReadingList readingList) {
         }
 
         @Override
-        public void onEditDescription(@NonNull final ReadingList readingList) {
+        public void onEditDescription(@NonNull ReadingList readingList) {
         }
 
         @Override

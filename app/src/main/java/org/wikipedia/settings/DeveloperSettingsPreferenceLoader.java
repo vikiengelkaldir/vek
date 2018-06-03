@@ -10,12 +10,16 @@ import android.support.v7.preference.TwoStatePreference;
 import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
 import org.wikipedia.crash.RemoteLogException;
-import org.wikipedia.useroption.ui.UserOptionRowActivity;
+import org.wikipedia.page.PageTitle;
+import org.wikipedia.readinglist.database.ReadingList;
+import org.wikipedia.readinglist.database.ReadingListDbHelper;
+import org.wikipedia.readinglist.database.ReadingListPage;
 import org.wikipedia.util.log.L;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/*package*/ class DeveloperSettingsPreferenceLoader extends BasePreferenceLoader {
+class DeveloperSettingsPreferenceLoader extends BasePreferenceLoader {
     @NonNull private final Context context;
 
     @NonNull private final Preference.OnPreferenceChangeListener setRestBaseManuallyChangeListener
@@ -72,7 +76,6 @@ import java.util.List;
         }
     };
 
-    /*package*/
     DeveloperSettingsPreferenceLoader(@NonNull PreferenceFragmentCompat fragment) {
         super(fragment);
         this.context = fragment.getActivity();
@@ -84,13 +87,39 @@ import java.util.List;
         setUpRestBaseCheckboxes();
         setUpMediaWikiSettings();
         setUpCookies((PreferenceCategory) findPreference(R.string.preferences_developer_cookies_key));
-        setUpCrashButton(findPreference(getCrashButtonKey()));
-        setUpUserOptionButton(findPreference(getUserOptionButtonKey()));
-        setUpRemoteLogButton(findPreference(R.string.preference_key_remote_log));
+
+        findPreference(context.getString(R.string.preferences_developer_crash_key))
+                .setOnPreferenceClickListener(preference -> {
+                    throw new TestException("User tested crash functionality.");
+                });
+
+        findPreference(R.string.preference_key_remote_log)
+                .setOnPreferenceChangeListener((preference, newValue) -> {
+                    L.logRemoteError(new RemoteLogException(newValue.toString()));
+                    WikipediaApp.getInstance().checkCrashes(getActivity());
+                    return true;
+                });
+
+        findPreference(R.string.preference_key_add_articles)
+                .setOnPreferenceChangeListener((preference, newValue) -> {
+                    if (!newValue.toString().trim().equals("") && !newValue.toString().trim().equals("0")) {
+                        createTestReadingList("Test reading list", Integer.valueOf(newValue.toString().trim()));
+                    }
+                    return true;
+                });
+
+        findPreference(R.string.preference_key_add_reading_lists)
+                .setOnPreferenceChangeListener((preference, newValue) -> {
+                    if (newValue.toString().trim().equals("") || newValue.toString().trim().equals("0")) {
+                        return true;
+                    }
+                    int numOfLists = Integer.valueOf(newValue.toString().trim());
+                    for (int i = 1; i <= numOfLists; i++) {
+                        createTestReadingList("Reading list " + i, 10);
+                    }
+                    return true;
+                });
     }
-
-
-    // --- RESTBase settings start ---
 
     private void setUpRestBaseCheckboxes() {
         TwoStatePreference manualPreference = (TwoStatePreference) findPreference(getManualKey());
@@ -117,81 +146,26 @@ import java.util.List;
         return context.getString(R.string.preference_key_use_restbase);
     }
 
-    // --- RESTBase settings end ---
-
-    // --- MediaWiki settings start ---
-
     private void setUpMediaWikiSettings() {
-        Preference uriPreference = findPreference(getMediaWikiBaseUriKey());
+        Preference uriPreference = findPreference(context.getString(R.string.preference_key_mediawiki_base_uri));
         uriPreference.setOnPreferenceChangeListener(setMediaWikiBaseUriChangeListener);
         TwoStatePreference multiLangPreference
-                = (TwoStatePreference) findPreference(getMediaWikiSupportsMultipleLanguages());
+                = (TwoStatePreference) findPreference(context.getString(R.string.preference_key_mediawiki_base_uri_supports_lang_code));
         multiLangPreference.setOnPreferenceChangeListener(setMediaWikiMultiLangSupportChangeListener);
-    }
-
-    private String getMediaWikiBaseUriKey() {
-        return context.getString(R.string.preference_key_mediawiki_base_uri);
-    }
-
-    private String getMediaWikiSupportsMultipleLanguages() {
-        return context.getString(R.string.preference_key_mediawiki_base_uri_supports_lang_code);
     }
 
     private void resetMediaWikiSettings() {
         WikipediaApp.getInstance().resetWikiSite();
     }
 
-    // --- MediaWiki settings end ---
-
-
-    private String getCrashButtonKey() {
-        return context.getString(R.string.preferences_developer_crash_key);
-    }
-
-    private String getUserOptionButtonKey() {
-        return context.getString(R.string.preferences_developer_user_option_key);
-    }
-
-    private void setUpCrashButton(Preference button) {
-        button.setOnPreferenceClickListener(buildCrashButtonClickListener());
-    }
-
-    private void setUpUserOptionButton(Preference button) {
-        button.setOnPreferenceClickListener(buildUserOptionButtonClickListener());
-    }
-
-    private Preference.OnPreferenceClickListener buildCrashButtonClickListener() {
-        return new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                throw new TestException("User tested crash functionality.");
-            }
-        };
-    }
-
-    private Preference.OnPreferenceClickListener buildUserOptionButtonClickListener() {
-        return new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                context.startActivity(UserOptionRowActivity.newIntent(context));
-                return true;
-            }
-        };
-    }
-
-    private void setUpRemoteLogButton(Preference button) {
-        button.setOnPreferenceChangeListener(buildRemoteLogPreferenceChangeListener());
-    }
-
-    private Preference.OnPreferenceChangeListener buildRemoteLogPreferenceChangeListener() {
-        return new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                L.logRemoteError(new RemoteLogException(newValue.toString()));
-//                WikipediaApp.getInstance().checkCrashes(getActivity());
-                return true;
-            }
-        };
+    private void createTestReadingList(String title, int listSize) {
+        ReadingList list = ReadingListDbHelper.instance().createList(title, "");
+        List<ReadingListPage> pages = new ArrayList<>();
+        for (int i = 0; i < listSize; i++) {
+            PageTitle pageTitle = new PageTitle("" + (i + 1), WikipediaApp.getInstance().getWikiSite());
+            pages.add(new ReadingListPage(pageTitle));
+        }
+        ReadingListDbHelper.instance().addPagesToList(list, pages, true);
     }
 
     private void setUpCookies(@NonNull PreferenceCategory cat) {

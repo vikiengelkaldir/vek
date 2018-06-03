@@ -33,21 +33,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <!-- Read More + bottom content (view in browser link, license, last updated) -->
-                <LinearLayout
-                    android:id="@+id/bottom_content_container"
+                <org.wikipedia.page.bottomcontent.BottomContentView
+                    android:id="@+id/page_bottom_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="-400dp"
-                    android:layout_gravity="bottom"
                     android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <include layout="@layout/fragment_page_read_more"/>
-
-                    <include layout="@layout/fragment_page_bottom_content"/>
-
-                </LinearLayout>
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="-320dp"/>
 
                 <org.wikipedia.views.WikiPageErrorView
                     android:id="@+id/page_error"
@@ -59,6 +51,12 @@
                     android:background="?android:windowBackground"
                     android:visibility="gone"/>
 
+                <android.support.design.widget.CoordinatorLayout
+                    android:id="@+id/fragment_page_coordinator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom" />
+
                 <org.wikipedia.page.PageActionTabLayout
                     android:id="@+id/page_actions_tab_layout"
                     android:layout_width="match_parent"
@@ -68,22 +66,6 @@
                     android:background="@color/base18"
                     app:tabSelectedTextColor="@color/base18"
                     app:tabIndicatorColor="@color/base18" />
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/page_random_button"
-                    style="@style/FloatingActionButton"
-                    android:layout_marginBottom="64dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:contentDescription="@string/view_next_random_article"
-                    app:backgroundTint="?attr/colorAccent"
-                    app:borderWidth="0dp"
-                    app:elevation="4dp"
-                    app:srcCompat="@drawable/ic_casino_accent50_24dp"
-                    android:tint="@android:color/white"
-                    android:visibility="gone"
-                    tools:visibility="visible"/>
 
             </android.support.design.widget.CoordinatorLayout>
 

@@ -16,19 +16,18 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!--<uses-permission-->
-        <!--android:name="android.permission.GET_ACCOUNTS"-->
-        <!---->
-        <!--android:maxSdkVersion="22" />-->
-    <!--<uses-permission-->
-        <!--android:name="android.permission.AUTHENTICATE_ACCOUNTS"-->
-        <!--android:maxSdkVersion="22" />-->
-    <!--<uses-permission-->
-        <!--android:name="android.permission.MANAGE_ACCOUNTS"-->
-        <!--android:maxSdkVersion="22" />-->
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <uses-permission
+        android:name="android.permission.MANAGE_ACCOUNTS"
+        android:maxSdkVersion="22" />
 
-    <!-- For Wikipedia Zero notifications: http://stackoverflow.com/q/13602190/970346 -->
-    <uses-permission android:name="android.permission.VIBRATE" android:maxSdkVersion="18" />
+    <!-- For notifications, e.g. User account notices, Wikipedia Zero, etc. -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <!-- For being able to receive notifications upon boot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -105,10 +104,11 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+                <!-- the following lines are merged
+                     https://developer.android.com/training/app-links/deep-linking.html
+                     so http and https apply to all prefixes-->
                 <data android:host="*.wikipedia.org" android:pathPrefix="/wiki/" android:scheme="http" />
-                <data android:host="*.wikipedia.org" android:pathPrefix="/wiki/" android:scheme="https" />
-                <data android:host="*.wikipedia.org" android:pathPrefix="/zh" android:pathPattern="-.*/" android:scheme="http" />
-                <data android:host="*.wikipedia.org" android:pathPrefix="/zh" android:pathPattern="-.*/" android:scheme="https" />
+                <data android:host="*.wikipedia.org" android:pathPattern="/zh-.*" android:scheme="https" />
             </intent-filter>
             <intent-filter>
                 <action android:name="org.wikipedia.app_shortcut" />
@@ -168,7 +168,7 @@
             android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".settings.LicenseActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.ActionBar"
             tools:ignore="GoogleAppIndexingUrlError">
             <intent-filter>
@@ -177,10 +177,6 @@
                 <data android:pathPrefix="/android_asset/licenses/" android:scheme="content" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".useroption.ui.UserOptionRowActivity"
-            android:theme="@style/AppTheme.ActionBar"
-            android:label="@string/user_option_activity_title" />
 
         <activity
             android:name=".feed.news.NewsActivity" />
@@ -234,7 +230,18 @@
             android:theme="@style/AppTheme.ActionBar"/>
 
         <activity android:name=".feed.onthisday.OnThisDayActivity"
-            android:label="@string/on_this_day"
+            android:configChanges="orientation|screenSize"/>
+
+        <activity android:name=".feed.configure.ConfigureActivity"
+            android:label="@string/feed_configure_activity_title"
+            android:theme="@style/AppTheme.ActionBar"/>
+
+        <activity android:name=".random.RandomActivity"
+            android:label="@string/view_random_card_title"
+            android:theme="@style/AppTheme.ActionBar"/>
+
+        <activity android:name=".theme.ThemeFittingRoomActivity"
+            android:label="@string/preference_title_app_theme"
             android:theme="@style/AppTheme.ActionBar"/>
 
         <provider
@@ -243,8 +250,8 @@
             android:exported="false" />
 
         <provider
-            android:authorities="@string/user_option_authority"
-            android:name=".database.UserOptionContentProvider"
+            android:authorities="@string/reading_lists_authority"
+            android:name=".database.ReadingListsContentProvider"
             android:exported="false"
             android:syncable="true"
             android:label="@string/user_option_sync_label" />
@@ -316,7 +323,7 @@
         </receiver>
 
         <service
-            android:name=".useroption.sync.UserOptionSyncService"
+            android:name=".readinglist.sync.ReadingListSyncService"
             android:exported="false">
 
             <intent-filter>
@@ -325,7 +332,7 @@
 
             <meta-data
                 android:name="android.content.SyncAdapter"
-                android:resource="@xml/user_option_sync_adapter" />
+                android:resource="@xml/reading_list_sync_adapter" />
 
         </service>
 
@@ -346,6 +353,8 @@
         <service
             android:name=".savedpages.SavedPageSyncService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver android:name=".savedpages.SavedPageSyncNotification" />
 
     </application>
 </manifest>

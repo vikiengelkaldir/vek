@@ -8,13 +8,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.VisibleForTesting;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.PopupMenu;
+import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.wikipedia.R;
@@ -24,9 +25,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CardHeaderView extends FrameLayout {
+public class CardHeaderView extends ConstraintLayout {
     public interface Callback {
         boolean onRequestDismissCard(@NonNull Card card);
+        void onRequestCustomize(@NonNull Card card);
     }
 
     @BindView(R.id.view_card_header_image) AppCompatImageView imageView;
@@ -37,7 +39,21 @@ public class CardHeaderView extends FrameLayout {
 
     public CardHeaderView(Context context) {
         super(context);
-        inflate(context, R.layout.view_card_header, this);
+        init();
+    }
+
+    public CardHeaderView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    public CardHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init() {
+        inflate(getContext(), R.layout.view_card_header, this);
         ButterKnife.bind(this);
     }
 
@@ -104,6 +120,11 @@ public class CardHeaderView extends FrameLayout {
                         return callback.onRequestDismissCard(card);
                     }
                     return false;
+                case R.id.menu_feed_card_customize:
+                    if (callback != null & card != null) {
+                        callback.onRequestCustomize(card);
+                    }
+                    return true;
                 default:
                     return false;
             }

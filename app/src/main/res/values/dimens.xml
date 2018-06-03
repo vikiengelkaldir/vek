@@ -5,9 +5,6 @@
 
     <dimen name="toolbar_default_elevation">4dp</dimen>
 
-    <dimen name="edit_pencil_size">24dp</dimen>
-    <dimen name="edit_pencil_horizontal_margin">24dp</dimen>
-
     <dimen name="popup_menu_drop_down_horizontal_offset">8dp</dimen>
     <dimen name="popup_menu_drop_down_vertical_offset">-8dp</dimen>
 
@@ -44,15 +41,9 @@
     <!-- Default font size of the Wikidata description for the page -->
     <dimen name="descriptionTextSize">14sp</dimen>
 
-    <!-- Default screen height ratio for news feature image -->
-    <item type="dimen" format="float" name="newsFeatureImageScreenHeightRatio">0.3</item>
-
     <dimen name="content_margin">@dimen/activity_horizontal_margin</dimen>
 
     <dimen name="drawer_drag_margin">16dp</dimen>
-
-    <!-- Tool tips -->
-    <dimen name="tool_tip_max_width">250dp</dimen>
 
     <!-- Default maximum width of bottom sheets. -->
     <dimen name="bottomSheetMaxWidth">480dp</dimen>
@@ -105,6 +96,9 @@
     <dimen name="view_list_card_margin_horizontal">8dp</dimen>
     <dimen name="view_horizontal_scrolling_list_card_item_margin_horizontal">4dp</dimen>
     <dimen name="view_horizontal_scrolling_list_card_item_margin_vertical">0dp</dimen>
+    <dimen name="view_card_header_height">48dp</dimen>
+    <dimen name="view_card_header_large_height">96dp</dimen>
+    <dimen name="view_card_footer_height">48dp</dimen>
     <dimen name="view_list_card_item_image">40dp</dimen>
     <dimen name="overflow_elevation">16dp</dimen>
     <integer name="article_engagement_threshold_sec">30</integer>

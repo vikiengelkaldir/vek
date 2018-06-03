@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import org.wikipedia.R;
 import org.wikipedia.auth.AccountUtil;
-import org.wikipedia.util.ReleaseUtil;
+import org.wikipedia.settings.Prefs;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +30,7 @@ public class ExploreOverflowView extends FrameLayout {
         void compilationsClick();
         void settingsClick();
         void donateClick();
+        void configureCardsClick();
     }
 
     @BindView(R.id.explore_overflow_compilations) View compilationsView;
@@ -57,7 +58,7 @@ public class ExploreOverflowView extends FrameLayout {
 
     @OnClick({R.id.explore_overflow_settings, R.id.explore_overflow_donate,
             R.id.explore_overflow_account_container, R.id.explore_overflow_log_out,
-            R.id.explore_overflow_compilations})
+            R.id.explore_overflow_compilations, R.id.explore_overflow_configure_cards})
     void onItemClick(View view) {
         if (popupWindowHost != null) {
             popupWindowHost.dismiss();
@@ -71,6 +72,9 @@ public class ExploreOverflowView extends FrameLayout {
                 if (!AccountUtil.isLoggedIn()) {
                     callback.loginClick();
                 }
+                break;
+            case R.id.explore_overflow_configure_cards:
+                callback.configureCardsClick();
                 break;
             case R.id.explore_overflow_compilations:
                 callback.compilationsClick();
@@ -93,8 +97,7 @@ public class ExploreOverflowView extends FrameLayout {
         inflate(getContext(), R.layout.view_explore_overflow, this);
         ButterKnife.bind(this);
 
-        // TODO: remove when ready
-        if (!ReleaseUtil.isPreBetaRelease()) {
+        if (!Prefs.offlineLibraryEnabled()) {
             compilationsView.setVisibility(GONE);
         }
 

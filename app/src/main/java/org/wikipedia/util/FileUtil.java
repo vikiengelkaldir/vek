@@ -1,9 +1,11 @@
 package org.wikipedia.util;
 
+import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.StatFs;
 import android.support.annotation.NonNull;
+
+import org.wikipedia.R;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -29,12 +31,7 @@ public final class FileUtil {
     public static long blockSize(File file) {
         StatFs statFs = new StatFs(file.getAbsolutePath());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            return statFs.getBlockSizeLong();
-        }
-
-        //noinspection deprecation
-        return statFs.getBlockSize();
+        return statFs.getBlockSizeLong();
     }
 
     public static File writeToFile(ByteArrayOutputStream bytes, File destinationFile) throws IOException {
@@ -101,6 +98,18 @@ public final class FileUtil {
 
     public static float bytesToGB(long bytes) {
         return (float) bytes / KILOBYTE / KILOBYTE / KILOBYTE;
+    }
+
+    public static float bytesToMB(long bytes) {
+        return (float) bytes / KILOBYTE / KILOBYTE;
+    }
+
+    public static String bytesToUserVisibleUnit(Context context, long bytes) {
+        float sizeInGB = bytesToGB(bytes);
+        if (sizeInGB >= 1.0) {
+            return context.getString(R.string.size_gb, sizeInGB);
+        }
+        return context.getString(R.string.size_mb, bytesToMB(bytes));
     }
 
     private FileUtil() { }

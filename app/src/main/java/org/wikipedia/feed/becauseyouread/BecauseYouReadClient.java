@@ -15,7 +15,6 @@ import org.wikipedia.search.SearchResult;
 import org.wikipedia.search.SearchResults;
 import org.wikipedia.util.log.L;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,10 +30,10 @@ public class BecauseYouReadClient extends FullTextSearchClient implements FeedCl
     @Override public void request(@NonNull Context context, @NonNull final WikiSite wiki, int age,
                                   @NonNull final FeedClient.Callback cb) {
         cancel();
-        readMoreTopicTask = new MainPageReadMoreTopicTask(context, age) {
+        readMoreTopicTask = new MainPageReadMoreTopicTask(age) {
             @Override public void onFinish(@Nullable HistoryEntry entry) {
                 if (entry == null) {
-                    cb.error(new IOException("Error retrieving history entry for suggestions"));
+                    cb.success(Collections.emptyList());
                     return;
                 }
                 getCardForHistoryEntry(entry, cb);

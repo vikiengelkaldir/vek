@@ -38,6 +38,7 @@ import org.wikipedia.history.HistoryEntry;
 import org.wikipedia.page.ExtendedBottomSheetDialogFragment;
 import org.wikipedia.page.PageTitle;
 import org.wikipedia.util.GeoUtil;
+import org.wikipedia.util.StringUtil;
 import org.wikipedia.util.log.L;
 import org.wikipedia.views.ViewUtil;
 
@@ -71,6 +72,7 @@ public class LinkPreviewDialog extends ExtendedBottomSheetDialogFragment
     private SimpleDraweeView thumbnailView;
     private GalleryThumbnailScrollView thumbnailGallery;
     private LinkPreviewOverlayView overlayView;
+    private TextView titleText;
     private View toolbarView;
     private View overflowButton;
 
@@ -107,13 +109,9 @@ public class LinkPreviewDialog extends ExtendedBottomSheetDialogFragment
         toolbarView = rootView.findViewById(R.id.link_preview_toolbar);
         toolbarView.setOnClickListener(goToPageListener);
 
-        TextView titleText = rootView.findViewById(R.id.link_preview_title);
-        titleText.setText(pageTitle.getDisplayText());
+        titleText = rootView.findViewById(R.id.link_preview_title);
         setConditionalLayoutDirection(rootView, pageTitle.getWikiSite().languageCode());
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-            // for oldish devices, reset line spacing to 1, since it truncates the descenders.
-            titleText.setLineSpacing(0, 1.0f);
-        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             // for <5.0, give the title a bit more bottom padding, since these versions
             // incorrectly cut off the bottom of the text when line spacing is <1.
             final int bottomPadding = 8;
@@ -122,15 +120,11 @@ public class LinkPreviewDialog extends ExtendedBottomSheetDialogFragment
 
         extractText = rootView.findViewById(R.id.link_preview_extract);
         thumbnailView = rootView.findViewById(R.id.link_preview_thumbnail);
-
         thumbnailGallery = rootView.findViewById(R.id.link_preview_thumbnail_gallery);
-        if (isImageDownloadEnabled()) {
-            CallbackTask.execute(new CallbackTask.Task<Map<String, ImageInfo>>() {
-                @Override public Map<String, ImageInfo> execute() throws Throwable {
-                    return client.request(pageTitle.getWikiSite(), pageTitle, true);
 
-                }
-            }, new CallbackTask.Callback<Map<String, ImageInfo>>() {
+        if (isImageDownloadEnabled()) {
+            CallbackTask.execute(() -> client.request(pageTitle.getWikiSite(), pageTitle, true),
+                new CallbackTask.Callback<Map<String, ImageInfo>>() {
                 @Override public void success(@Nullable Map<String, ImageInfo> result) {
                     setThumbGallery(result);
                     thumbnailGallery.setGalleryViewListener(galleryViewListener);
@@ -144,14 +138,11 @@ public class LinkPreviewDialog extends ExtendedBottomSheetDialogFragment
         }
 
         overflowButton = rootView.findViewById(R.id.link_preview_overflow_button);
-        overflowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(getActivity(), overflowButton);
-                popupMenu.inflate(R.menu.menu_link_preview);
-                popupMenu.setOnMenuItemClickListener(menuListener);
-                popupMenu.show();
-            }
+        overflowButton.setOnClickListener((View v) -> {
+            PopupMenu popupMenu = new PopupMenu(getActivity(), overflowButton);
+            popupMenu.inflate(R.menu.menu_link_preview);
+            popupMenu.setOnMenuItemClickListener(menuListener);
+            popupMenu.show();
         });
 
         // show the progress bar while we load content...
@@ -232,7 +223,7 @@ public class LinkPreviewDialog extends ExtendedBottomSheetDialogFragment
         PageClientFactory
                 .create(pageTitle.getWikiSite(), pageTitle.namespace())
                 .summary(pageTitle.getPrefixedText())
-                .enqueue(linkPreviewNetworkOnLoadCallback);
+                .enqueue(linkPreviewCallback);
     }
 
     private void showPreview(@NonNull LinkPreviewContents contents) {
@@ -277,7 +268,7 @@ public class LinkPreviewDialog extends ExtendedBottomSheetDialogFragment
         ViewUtil.loadImageUrlInto(thumbnailView, contents.getTitle().getThumbUrl());
     }
 
-    private retrofit2.Callback<PageSummary> linkPreviewNetworkOnLoadCallback
+    private retrofit2.Callback<PageSummary> linkPreviewCallback
             = new retrofit2.Callback<PageSummary>() {
         @Override public void onResponse(Call<PageSummary> call, Response<PageSummary> rsp) {
             if (!isAdded()) {
@@ -286,8 +277,17 @@ public class LinkPreviewDialog extends ExtendedBottomSheetDialogFragment
 
             PageSummary summary = rsp.body();
             if (summary != null && !summary.hasError()) {
+
+                // TODO: Remove this logic once Parsoid starts supporting language variants.
+                if (pageTitle.getWikiSite().languageCode().equals(pageTitle.getWikiSite().subdomain())) {
+                    titleText.setText(StringUtil.fromHtml(summary.getDisplayTitle()));
+                } else {
+                    titleText.setText(StringUtil.fromHtml(pageTitle.getDisplayText()));
+                }
+
                 showPreview(new LinkPreviewContents(summary, pageTitle.getWikiSite()));
             } else {
+                titleText.setText(StringUtil.fromHtml(pageTitle.getDisplayText()));
                 showError(null);
                 logError(summary.hasError() ? summary.getError() : null,
                         "Page summary network request failed");
@@ -299,6 +299,7 @@ public class LinkPreviewDialog extends ExtendedBottomSheetDialogFragment
             if (!isAdded()) {
                 return;
             }
+            titleText.setText(StringUtil.fromHtml(pageTitle.getDisplayText()));
             showError(caught);
         }
     };
@@ -345,12 +346,7 @@ public class LinkPreviewDialog extends ExtendedBottomSheetDialogFragment
         }
     };
 
-    private View.OnClickListener goToPageListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            goToLinkedPage();
-        }
-    };
+    private View.OnClickListener goToPageListener = (View v) -> goToLinkedPage();
 
     private void goToExternalMapsApp() {
         if (location != null) {

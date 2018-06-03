@@ -2,7 +2,7 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:parentTag="LinearLayout"
+    tools:parentTag="android.widget.LinearLayout"
     tools:layout_width="match_parent"
     tools:layout_height="wrap_content"
     tools:orientation="vertical">
@@ -11,7 +11,6 @@
         android:id="@+id/view_onboarding_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/RtlAwareTextView"
         android:textColor="@android:color/white"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
@@ -26,7 +25,6 @@
         android:id="@+id/view_onboarding_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/RtlAwareTextView"
         android:textColor="@android:color/white"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
@@ -45,7 +43,7 @@
 
         <TextView
             android:id="@+id/view_onboarding_action_negative"
-            style="@style/Widget.AppCompat.Button.Borderless"
+            style="@style/TransparentButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"

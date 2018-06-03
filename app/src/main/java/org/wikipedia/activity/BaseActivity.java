@@ -1,6 +1,5 @@
 package org.wikipedia.activity;
 
-import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,23 +26,22 @@ import org.wikipedia.R;
 import org.wikipedia.WikipediaApp;
 import org.wikipedia.crash.CrashReportActivity;
 import org.wikipedia.events.NetworkConnectEvent;
+import org.wikipedia.events.SplitLargeListsEvent;
 import org.wikipedia.events.ThemeChangeEvent;
 import org.wikipedia.events.WikipediaZeroEnterEvent;
 import org.wikipedia.offline.Compilation;
 import org.wikipedia.offline.OfflineManager;
-import org.wikipedia.readinglist.sync.ReadingListSynchronizer;
 import org.wikipedia.recurring.RecurringTasksExecutor;
+import org.wikipedia.savedpages.SavedPageSyncService;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.util.DeviceUtil;
 import org.wikipedia.util.FeedbackUtil;
 import org.wikipedia.util.PermissionUtil;
-import org.wikipedia.util.ReleaseUtil;
 import org.wikipedia.util.log.L;
 
 import java.util.List;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    private boolean destroyed;
     private EventBusMethods busMethods;
     private NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
 
@@ -71,7 +70,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         WikipediaApp.getInstance().getBus().unregister(busMethods);
         busMethods = null;
         super.onDestroy();
-        destroyed = true;
     }
 
     @Override protected void onResume() {
@@ -120,13 +118,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    @Override public boolean isDestroyed() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            return super.isDestroyed();
-        }
-        return destroyed;
-    }
-
     protected void setTheme() {
         setTheme(WikipediaApp.getInstance().getCurrentTheme().getResourceId());
     }
@@ -155,11 +146,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onOfflineCompilationsError(Throwable t) {
     }
 
-    protected void searchOfflineCompilationsWithPermission(boolean force) {
-        if (!ReleaseUtil.isPreBetaRelease()) {
-            // TODO: enable when ready for production.
-            return;
-        }
+    public void searchOfflineCompilationsWithPermission(boolean force) {
         if (!PermissionUtil.hasWriteExternalStoragePermission(this)) {
             if (PermissionUtil.shouldShowWritePermissionRationale(this)) {
                 requestStoragePermission();
@@ -171,7 +158,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    @TargetApi(17)
     private void searchOfflineCompilations(boolean force) {
         if ((!DeviceUtil.isOnline() && OfflineManager.instance().shouldSearchAgain()) || force) {
             OfflineManager.instance().searchForCompilations(new OfflineManager.Callback() {
@@ -214,7 +200,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             if (DeviceUtil.isOnline()) {
                 onGoOnline();
-                ReadingListSynchronizer.instance().syncSavedPages();
+                SavedPageSyncService.enqueue();
             } else {
                 onGoOffline();
             }
@@ -236,11 +222,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         @Subscribe public void on(NetworkConnectEvent event) {
-            ReadingListSynchronizer.instance().syncSavedPages();
+            SavedPageSyncService.enqueue();
         }
 
         @Subscribe public void on(ThemeChangeEvent event) {
             recreate();
         }
+
+        @Subscribe public void on(SplitLargeListsEvent event) {
+            new AlertDialog.Builder(BaseActivity.this)
+                    .setMessage(R.string.split_reading_list_message)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
+        }
     }
+
 }

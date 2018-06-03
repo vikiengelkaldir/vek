@@ -42,6 +42,26 @@ public final class DateUtil {
         return getShortDateString(date);
     }
 
+    public static String getFeedCardShortDateString(@NonNull Calendar date) {
+        return getExtraShortDateString(date.getTime());
+    }
+
+    public static String getMonthOnlyDateString(@NonNull Date date) {
+        return getDateStringWithSkeletonPattern(date, "MMMM d");
+    }
+
+    public static String getMonthOnlyWithoutDayDateString(@NonNull Date date) {
+        return getDateStringWithSkeletonPattern(date, "MMMM");
+    }
+
+    private static String getExtraShortDateString(@NonNull Date date) {
+        return getDateStringWithSkeletonPattern(date, "MMM d");
+    }
+
+    private static String getDateStringWithSkeletonPattern(@NonNull Date date, @NonNull String pattern) {
+        return new SimpleDateFormat(android.text.format.DateFormat.getBestDateTimePattern(Locale.getDefault(), pattern), Locale.getDefault()).format(date);
+    }
+
     public static String getShortDateString(@NonNull Date date) {
         // todo: consider allowing TWN date formats. It would be useful to have but might be
         //       difficult for translators to write correct format specifiers without being able to
@@ -56,6 +76,12 @@ public final class DateUtil {
         return new UtcDate(age);
     }
 
+    public static Calendar getDefaultDateFor(int age) {
+        Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
+        calendar.add(Calendar.DATE, -age);
+        return calendar;
+    }
+
     public static Date getHttpLastModifiedDate(@NonNull String dateStr) throws ParseException {
         SimpleDateFormat df = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.ROOT);
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -64,7 +90,7 @@ public final class DateUtil {
 
     @NonNull public static String yearToStringWithEra(int year) {
         Calendar cal = new GregorianCalendar(year, 1, 1);
-        return new SimpleDateFormat(year < 0 ? "y GG" : "y", Locale.getDefault()).format(cal.getTime());
+        return getDateStringWithSkeletonPattern(cal.getTime(), year < 0 ? "y GG" : "y");
     }
 
     @NonNull public static String getYearDifferenceString(int year) {

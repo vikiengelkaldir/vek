@@ -3,6 +3,8 @@ package org.wikipedia.dataclient.restbase.page;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.google.gson.annotations.SerializedName;
+
 import org.wikipedia.dataclient.page.PageSummary;
 import org.wikipedia.dataclient.restbase.RbServiceError;
 import org.wikipedia.json.annotations.Required;
@@ -13,13 +15,16 @@ import org.wikipedia.json.annotations.Required;
  *
  * N.B.: The "title" field here sent by RESTBase is the *normalized* page title.  However, in the
  * FeedPageSummary subclass, "title" becomes the un-normalized, raw title, and the normalized title
- * is sent is "normalizedtitle".
+ * is sent as "normalizedtitle".
  */
 public class RbPageSummary implements PageSummary {
     @SuppressWarnings("unused,NullableProblems") @Required @NonNull private String title;
+    @SuppressWarnings("unused") @Nullable private String normalizedtitle;
+    @SuppressWarnings("unused,NullableProblems") @NonNull private String displaytitle;
     @SuppressWarnings("unused") @Nullable private String extract;
     @SuppressWarnings("unused") @Nullable private String description;
     @SuppressWarnings("unused") @Nullable private Thumbnail thumbnail;
+    @SuppressWarnings("unused") @Nullable @SerializedName("originalimage") private Thumbnail originalImage;
 
     @Override
     public boolean hasError() {
@@ -37,6 +42,11 @@ public class RbPageSummary implements PageSummary {
         return title;
     }
 
+    @Override @NonNull
+    public String getDisplayTitle() {
+        return displaytitle;
+    }
+
     @Override @Nullable
     public String getExtract() {
         return extract;
@@ -52,6 +62,16 @@ public class RbPageSummary implements PageSummary {
         return description;
     }
 
+    @NonNull
+    public String getNormalizedTitle() {
+        return normalizedtitle == null ? title : normalizedtitle;
+    }
+
+    @Nullable
+    public String getOriginalImageUrl() {
+        return originalImage == null ? null : originalImage.getUrl();
+    }
+
     /**
      * For the thumbnail URL of the page
      */
@@ -62,4 +82,10 @@ public class RbPageSummary implements PageSummary {
             return source;
         }
     }
+
+
+    public void setDescription(@Nullable String description) {
+        this.description = description;
+    }
+
 }

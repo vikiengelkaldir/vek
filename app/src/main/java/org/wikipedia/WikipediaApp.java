@@ -24,8 +24,8 @@ import org.wikipedia.analytics.SessionFunnel;
 import org.wikipedia.auth.AccountUtil;
 import org.wikipedia.concurrency.ThreadSafeBus;
 import org.wikipedia.connectivity.NetworkConnectivityReceiver;
-//import org.wikipedia.crash.CrashReporter;
-//import org.wikipedia.crash.hockeyapp.HockeyAppCrashReporter;
+import org.wikipedia.crash.CrashReporter;
+import org.wikipedia.crash.hockeyapp.HockeyAppCrashReporter;
 import org.wikipedia.database.Database;
 import org.wikipedia.database.DatabaseClient;
 import org.wikipedia.dataclient.SharedPreferenceCookieManager;
@@ -43,19 +43,10 @@ import org.wikipedia.language.AppLanguageState;
 import org.wikipedia.login.UserIdClient;
 import org.wikipedia.notifications.NotificationPollBroadcastReceiver;
 import org.wikipedia.pageimages.PageImage;
-import org.wikipedia.readinglist.database.ReadingListRow;
-import org.wikipedia.readinglist.page.ReadingListPageRow;
-import org.wikipedia.readinglist.page.database.ReadingListPageHttpRow;
-import org.wikipedia.readinglist.page.database.disk.ReadingListPageDiskRow;
-import org.wikipedia.savedpages.SavedPage;
 import org.wikipedia.search.RecentSearch;
 import org.wikipedia.settings.Prefs;
 import org.wikipedia.settings.RemoteConfig;
 import org.wikipedia.theme.Theme;
-import org.wikipedia.useroption.UserOption;
-import org.wikipedia.useroption.database.UserOptionDao;
-import org.wikipedia.useroption.database.UserOptionRow;
-import org.wikipedia.useroption.sync.UserOptionContentResolver;
 import org.wikipedia.util.DimenUtil;
 import org.wikipedia.util.ReleaseUtil;
 import org.wikipedia.util.log.L;
@@ -81,6 +72,7 @@ public class WikipediaApp extends Application {
 
     private final RemoteConfig remoteConfig = new RemoteConfig();
     private final Map<Class<?>, DatabaseClient<?>> databaseClients = Collections.synchronizedMap(new HashMap<Class<?>, DatabaseClient<?>>());
+    private Handler mainThreadHandler;
     private AppLanguageState appLanguageState;
     private FunnelManager funnelManager;
     private SessionFunnel sessionFunnel;
@@ -90,7 +82,7 @@ public class WikipediaApp extends Application {
     private String userAgent;
     private WikiSite wiki;
     private UserIdClient userIdClient = new UserIdClient();
-//    private CrashReporter crashReporter;
+    private CrashReporter crashReporter;
     private RefWatcher refWatcher;
     private Bus bus;
     private Theme currentTheme = Theme.getFallback();
@@ -142,14 +134,6 @@ public class WikipediaApp extends Application {
     @NonNull
     public Theme getCurrentTheme() {
         return currentTheme;
-    }
-
-    public boolean isCurrentThemeLight() {
-        return getCurrentTheme().isLight();
-    }
-
-    public boolean isCurrentThemeDark() {
-        return getCurrentTheme().isDark();
     }
 
     @NonNull
@@ -243,8 +227,6 @@ public class WikipediaApp extends Application {
         // TODO: Remove when user accounts have been migrated to AccountManager (June 2018)
         AccountUtil.migrateAccountFromSharedPrefs();
 
-        UserOptionContentResolver.registerAppSyncObserver(this);
-
         registerConnectivityReceiver();
 
         listenForNotifications();
@@ -298,22 +280,8 @@ public class WikipediaApp extends Application {
                 client = new DatabaseClient<>(this, PageImage.DATABASE_TABLE);
             } else if (cls.equals(RecentSearch.class)) {
                 client = new DatabaseClient<>(this, RecentSearch.DATABASE_TABLE);
-            } else if (cls.equals(SavedPage.class)) {
-                client = new DatabaseClient<>(this, SavedPage.DATABASE_TABLE);
             } else if (cls.equals(EditSummary.class)) {
                 client = new DatabaseClient<>(this, EditSummary.DATABASE_TABLE);
-            } else if (cls.equals(UserOption.class)) {
-                client = new DatabaseClient<>(this, UserOptionRow.DATABASE_TABLE);
-            } else if (cls.equals(UserOptionRow.class)) {
-                client = new DatabaseClient<>(this, UserOptionRow.HTTP_DATABASE_TABLE);
-            } else if (cls.equals(ReadingListPageRow.class)) {
-                client = new DatabaseClient<>(this, ReadingListPageRow.DATABASE_TABLE);
-            } else if (cls.equals(ReadingListPageHttpRow.class)) {
-                client = new DatabaseClient<>(this, ReadingListPageRow.HTTP_DATABASE_TABLE);
-            } else if (cls.equals(ReadingListPageDiskRow.class)) {
-                client = new DatabaseClient<>(this, ReadingListPageRow.DISK_DATABASE_TABLE);
-            } else if (cls.equals(ReadingListRow.class)) {
-                client = new DatabaseClient<>(this, ReadingListRow.DATABASE_TABLE);
             } else {
                 throw new RuntimeException("No persister found for class " + cls.getCanonicalName());
             }
@@ -381,20 +349,23 @@ public class WikipediaApp extends Application {
         return false;
     }
 
-//    public void putCrashReportProperty(String key, String value) {
-//        if (!ReleaseUtil.isPreBetaRelease()) {
-//            crashReporter.putReportProperty(key, value);
-//        }
-//    }
-//
-//    public void checkCrashes(@NonNull Activity activity) {
-//        if (!ReleaseUtil.isPreBetaRelease()) {
-//            crashReporter.checkCrashes(activity);
-//        }
-//    }
+    public void putCrashReportProperty(String key, String value) {
+        if (!ReleaseUtil.isPreBetaRelease()) {
+            crashReporter.putReportProperty(key, value);
+        }
+    }
 
-    public void runOnMainThread(Runnable runnable) {
-        new Handler(getMainLooper()).post(runnable);
+    public void checkCrashes(@NonNull Activity activity) {
+        if (!ReleaseUtil.isPreBetaRelease()) {
+            crashReporter.checkCrashes(activity);
+        }
+    }
+
+    public Handler getMainThreadHandler() {
+        if (mainThreadHandler == null) {
+            mainThreadHandler = new Handler(getMainLooper());
+        }
+        return mainThreadHandler;
     }
 
     /**
@@ -416,7 +387,6 @@ public class WikipediaApp extends Application {
     public void logOut() {
         L.v("logging out");
         AccountUtil.removeAccount();
-        UserOptionDao.instance().clear();
         SharedPreferenceCookieManager.getInstance().clearAllCookies();
     }
 
@@ -427,23 +397,23 @@ public class WikipediaApp extends Application {
     }
 
     private void initExceptionHandling() {
-//        crashReporter = new HockeyAppCrashReporter(getString(R.string.hockeyapp_app_id), consentAccessor());
-//        crashReporter.registerCrashHandler(this);
-//
-//        L.setRemoteLogger(crashReporter);
+        crashReporter = new HockeyAppCrashReporter(getString(R.string.hockeyapp_app_id), consentAccessor());
+        crashReporter.registerCrashHandler(this);
+
+        L.setRemoteLogger(crashReporter);
     }
-//
-//    private CrashReporter.AutoUploadConsentAccessor consentAccessor() {
-//        return new CrashReporter.AutoUploadConsentAccessor() {
-//            @Override
-//            public boolean isAutoUploadPermitted() {
-//                return Prefs.isCrashReportAutoUploadEnabled();
-//            }
-//        };
-//    }
+
+    private CrashReporter.AutoUploadConsentAccessor consentAccessor() {
+        return new CrashReporter.AutoUploadConsentAccessor() {
+            @Override
+            public boolean isAutoUploadPermitted() {
+                return Prefs.isCrashReportAutoUploadEnabled();
+            }
+        };
+    }
 
     private void enableWebViewDebugging() {
-        if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (BuildConfig.DEBUG) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
     }

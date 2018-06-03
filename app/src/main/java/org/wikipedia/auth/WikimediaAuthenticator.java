@@ -18,7 +18,7 @@ import org.wikipedia.analytics.LoginFunnel;
 import org.wikipedia.login.LoginActivity;
 
 public class WikimediaAuthenticator extends AbstractAccountAuthenticator {
-    private static final String[] SYNC_AUTHORITIES = {BuildConfig.USER_OPTION_AUTHORITY};
+    private static final String[] SYNC_AUTHORITIES = {BuildConfig.READING_LISTS_AUTHORITY};
 
     @NonNull private final Context context;
 
