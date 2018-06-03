@@ -96,7 +96,7 @@ class DeveloperSettingsPreferenceLoader extends BasePreferenceLoader {
         findPreference(R.string.preference_key_remote_log)
                 .setOnPreferenceChangeListener((preference, newValue) -> {
                     L.logRemoteError(new RemoteLogException(newValue.toString()));
-                    WikipediaApp.getInstance().checkCrashes(getActivity());
+//                    WikipediaApp.getInstance().checkCrashes(getActivity());
                     return true;
                 });
 

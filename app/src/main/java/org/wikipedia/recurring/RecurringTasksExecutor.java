@@ -1,7 +1,7 @@
 package org.wikipedia.recurring;
 
 import org.wikipedia.WikipediaApp;
-import org.wikipedia.alphaupdater.AlphaUpdateChecker;
+//import org.wikipedia.alphaupdater.AlphaUpdateChecker;
 import org.wikipedia.concurrency.SaneAsyncTask;
 import org.wikipedia.page.shareafact.SharedImageCleanupTask;
 import org.wikipedia.settings.RemoteConfigRefreshTask;
@@ -22,14 +22,14 @@ public class RecurringTasksExecutor {
                         // Has list of all rotating tasks that need to be run
                         new RemoteConfigRefreshTask(),
                         new SharedImageCleanupTask(app),
-                        new DailyEventTask(app)
+//                        new DailyEventTask(app)
                 };
                 for (RecurringTask task: allTasks) {
                     task.runIfNecessary();
                 }
-                if (ReleaseUtil.isAlphaRelease()) {
-                    new AlphaUpdateChecker(app).runIfNecessary();
-                }
+//                if (ReleaseUtil.isAlphaRelease()) {
+////                    new AlphaUpdateChecker(app).runIfNecessary();
+//                }
                 return null;
             }
         };

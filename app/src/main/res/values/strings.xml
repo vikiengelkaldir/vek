@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name_prod">Wikipedia</string>
+
+    <string name="app_name_prod">Unblocker for Wikipedia</string>
+    <string name="mesaju">This application is forked from official Wikipedia application(version 2.7.225-r-2018-02-06) in order to reach Wikipedia content through vikiansiklopedi.org. The user is responsible for the viewed pages. This application and vikiansiklopedi.org are not affiliated to Wikimedia Foundation. </string>
+    <string name="hakki">About Unblocker for Wikipedia¯\\_(ツ)_/¯</string>
+    <string name="about_description">About Unblocker for Wikipedia</string>
+    <string name="about_app_license"><![CDATA[Source code of this app is available on <a href=\"https://github.com/vikiengelkaldir/vek\">GitHub</a> under the <a href=\"https://raw.githubusercontent.com/vikiengelkaldir/vek/master/COPYING\">Apache 2.0 License</a>. Unless otherwise specified, content on Wikipedia is available under a <a href=\"https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License\">Creative Commons Attribution-ShareAlike License</a>.]]></string>
+    <string name="preference_title_language">Content language</string>
+    <string name="search_hint">Search</string>
+
+
+
+
+    <!--<string name="app_name_prod">Wikipedia</string>-->
     <string name="app_name_beta" tools:ignore="UnusedResources">Wikipedia Beta</string>
     <string name="app_name_alpha" tools:ignore="UnusedResources">Wikipedia Alpha</string>
 
     <string name="wikimedia">Wikimedia</string>
 
-    <string name="search_hint">Search Wikipedia</string>
+    <!--<string name="search_hint">Search Wikipedia</string>-->
     <string name="search_hint_search_history">Search history</string>
     <string name="search_hint_search_my_lists">Search my lists</string>
     <string name="search_hint_search_reading_list">Search reading list</string>
@@ -60,7 +75,7 @@
     <string name="content_license_html"><![CDATA[Content is available under <a href=\"%1$s\">CC BY-SA 3.0</a> unless otherwise noted]]></string>
     <string name="edit_save_action_license_logged_in"><![CDATA[By saving, you agree to the <a href="%1$s">Terms of Use</a>, and to irrevocably release your contributions under the <a href="%2$s">CC BY-SA 3.0</a> license.]]></string>
     <string name="edit_save_action_license_anon"><![CDATA[By saving, you agree to the <a href="%1$s">Terms of Use</a>, and to irrevocably release your contributions under the <a href="%2$s/">CC BY-SA 3.0</a> license. Edits will be attributed to the IP address of your device. If you <a href="https://#login">log in</a>, you will have more privacy.]]></string>
-    <string name="preference_title_language">Wikipedia language</string>
+    <!--<string name="preference_title_language">Wikipedia language</string>-->
     <string name="preference_languages_filter_hint">Search</string>
     <string name="langlinks_filter_hint">Search</string>
     <string name="langlinks_empty">This page is not available in other languages.</string>
@@ -136,7 +151,7 @@
     <string name="preferences_heading_storage_and_syncing">Storage and syncing</string>
     <string name="preference_title_sync_reading_lists">Sync reading lists</string>
     <string name="preference_summary_sync_reading_lists">Allow Wikimedia to sync your reading lists when you log in</string>
-    <string name="preferences_privacy_settings_heading">Privacy</string>
+    <string name="preferences_privacy_settings_heading"></string>
     <string name="preference_title_eventlogging_opt_in">Send usage reports</string>
     <string name="preference_summary_eventlogging_opt_in">Allow Wikimedia to collect information about how you use the app to make the app better</string>
     <string name="preference_title_auto_upload_crash_reports">Send crash reports</string>
@@ -152,7 +167,7 @@
     <string name="page_protected_can_not_edit_title">This page is protected</string>
     <string name="settings_item_preferences">Settings</string>
     <string name="settings_activity_title">Settings</string>
-    <string name="about_description">About the Wikipedia app</string>
+    <!--<string name="about_description">About the Wikipedia app</string>-->
     <string name="privacy_policy_description">Privacy policy</string>
     <string name="terms_of_use_description">Terms of use</string>
     <string name="about_wikipedia_url">https://en.m.wikipedia.org/wiki/Wikipedia:About</string>
@@ -166,7 +181,7 @@
     <string name="about_translators_heading">Translators</string>
     <string name="about_translators_translatewiki"><![CDATA[This app was translated by the volunteer translators at <a href="https://translatewiki.net">translatewiki.net</a>.]]></string>
     <string name="about_app_license_heading">License</string>
-    <string name="about_app_license"><![CDATA[Source code available on <a href=\"https://gerrit.wikimedia.org/r/#/admin/projects/apps/android/wikipedia\">Gerrit</a> and <a href=\"https://github.com/wikimedia/apps-android-wikipedia\">GitHub</a> under the <a href=\"https://phabricator.wikimedia.org/diffusion/APAW/browse/master/COPYING?view=raw\">Apache 2.0 License</a>. Unless otherwise specified, content is available under a <a href=\"https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License\">Creative Commons Attribution-ShareAlike License</a>.]]></string>
+    <!--<string name="about_app_license"><![CDATA[Source code available on <a href=\"https://gerrit.wikimedia.org/r/#/admin/projects/apps/android/wikipedia\">Gerrit</a> and <a href=\"https://github.com/wikimedia/apps-android-wikipedia\">GitHub</a> under the <a href=\"https://phabricator.wikimedia.org/diffusion/APAW/browse/master/COPYING?view=raw\">Apache 2.0 License</a>. Unless otherwise specified, content is available under a <a href=\"https://en.wikipedia.org/wiki/Wikipedia:Text_of_Creative_Commons_Attribution-ShareAlike_3.0_Unported_License\">Creative Commons Attribution-ShareAlike License</a>.]]></string>-->
     <string name="about_wmf"><![CDATA[A product of the <a href="http://m.wikimediafoundation.org/wiki/Home">Wikimedia Foundation</a>]]></string>
     <string name="about_activity_title">About</string>
     <string name="edit_abandon_confirm">The page has been modified. Are you sure you want to exit without saving your changes?</string>

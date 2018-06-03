@@ -7,6 +7,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import org.wikipedia.R;
 import org.wikipedia.util.DimenUtil;
 
@@ -15,9 +19,19 @@ import org.wikipedia.util.DimenUtil;
  * Fragments, with a Toolbar overlaid on top.
  */
 public abstract class SingleFragmentToolbarActivity<T extends Fragment> extends SingleFragmentActivity<T> {
+    private AdView mAdView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MobileAds.initialize(this,
+                "ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXX73");
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         setSupportActionBar(getToolbar());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("");

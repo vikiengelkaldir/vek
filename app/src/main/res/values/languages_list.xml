@@ -306,7 +306,7 @@
   </string-array>
   <string-array name="preference_language_local_names">
     <item>English</item>
-    <item>Sinugboanong Binisaya</item>
+    <item>:( Sinugboanong Binisaya</item>
     <item>Svenska</item>
     <item>Deutsch</item>
     <item>Français</item>
@@ -314,300 +314,302 @@
     <item>Русский</item>
     <item>Italiano</item>
     <item>Español</item>
-    <item>Winaray</item>
-    <item>Polski</item>
-    <item>Tiếng Việt</item>
-    <item>日本語</item>
-    <item>Português</item>
-    <item>简体</item>
-    <item>繁體</item>
-    <item>Українська</item>
-    <item>فارسی</item>
-    <item>Català</item>
-    <item>العربية</item>
-    <item>Norsk (Bokmål)</item>
-    <item>Srpskohrvatski / Српскохрватски</item>
-    <item>Suomi</item>
-    <item>Magyar</item>
-    <item>Bahasa Indonesia</item>
-    <item>한국어</item>
-    <item>Čeština</item>
-    <item>Română</item>
-    <item>Српски / Srpski</item>
-    <item>Bahasa Melayu</item>
+    <item>:( Winaray</item>
+    <item>:( Polski</item>
+    <item>:( Tiếng Việt</item>
+    <item>:( 日本語</item>
+    <item>:( Português</item>
+    <item>:( 简体</item>
+    <item>:( 繁體</item>
+    <item>:( Українська</item>
+    <item>فارسی ):</item>
+    <item>:( Català</item>
+    <item>العربية ):</item>
+    <item>:( Norsk (Bokmål)</item>
+    <item>:( Srpskohrvatski / Српскохрватски</item>
+    <item>:( Suomi</item>
+    <item>:( Magyar</item>
+    <item>:( Bahasa Indonesia</item>
+    <item>:( 한국어</item>
+    <item>:( Čeština</item>
+    <item>:( Română</item>
+    <item>:( Српски / Srpski</item>
+    <item>:( Bahasa Melayu</item>
     <item>Türkçe</item>
-    <item>Euskara</item>
-    <item>Esperanto</item>
-    <item>Български</item>
-    <item>Հայերեն</item>
-    <item>Dansk</item>
-    <item>Bân-lâm-gú</item>
-    <item>Slovenčina</item>
-    <item>Baso Minangkabau</item>
-    <item>Қазақша</item>
-    <item>עברית</item>
-    <item>Lietuvių</item>
-    <item>Hrvatski</item>
-    <item>Нохчийн</item>
-    <item>Eesti</item>
-    <item>Slovenščina</item>
-    <item>Беларуская</item>
-    <item>Galego</item>
-    <item>Ελληνικά</item>
-    <item>Nynorsk</item>
-    <item>O‘zbek</item>
-    <item>Simple English</item>
-    <item>Latina</item>
-    <item>Azərbaycanca</item>
-    <item>اردو</item>
-    <item>हिन्दी</item>
-    <item>Volapük</item>
-    <item>ไทย</item>
-    <item>ქართული</item>
-    <item>தமிழ்</item>
-    <item>Cymraeg</item>
-    <item>Македонски</item>
-    <item>Malagasy</item>
-    <item>Occitan</item>
-    <item>Tagalog</item>
-    <item>Кыргызча</item>
-    <item>Latviešu</item>
-    <item>Bosanski</item>
-    <item>Tatarça / Татарча</item>
-    <item>नेपाल भाषा</item>
-    <item>Shqip</item>
-    <item>Тоҷикӣ</item>
-    <item>తెలుగు</item>
-    <item>Piemontèis</item>
-    <item>Brezhoneg</item>
-    <item>Беларуская (тарашкевіца)</item>
-    <item>粵語</item>
-    <item>বাংলা</item>
-    <item>മലയാളം</item>
-    <item>Krèyol ayisyen</item>
-    <item>Asturianu</item>
-    <item>Lëtzebuergesch</item>
-    <item>Basa Jawa</item>
-    <item>मराठी</item>
-    <item>تۆرکجه</item>
-    <item>Afrikaans</item>
-    <item>Scots</item>
-    <item>شاہ مکھی پنجابی (Shāhmukhī Pañjābī)</item>
-    <item>Gaeilge</item>
-    <item>Íslenska</item>
-    <item>Чăваш</item>
-    <item>Башҡорт</item>
-    <item>Frysk</item>
-    <item>Basa Sunda</item>
-    <item>Kiswahili</item>
-    <item>မြန်မာဘာသာ</item>
-    <item>Lumbaart</item>
-    <item>Aragonés</item>
-    <item>Yorùbá</item>
-    <item>नेपाली</item>
-    <item>ગુજરાતી</item>
-    <item>Ido</item>
-    <item>ਪੰਜਾਬੀ</item>
-    <item>Plattdüütsch</item>
-    <item>Sicilianu</item>
-    <item>ইমার ঠার/বিষ্ণুপ্রিয়া মণিপুরী</item>
-    <item>Alemannisch</item>
-    <item>Boarisch</item>
-    <item>Kurdî / كوردی</item>
-    <item>ಕನ್ನಡ</item>
-    <item>Interlingua</item>
-    <item>Runa Simi</item>
-    <item>Soranî / کوردی</item>
-    <item>Монгол</item>
-    <item>مصرى (Maṣrī)</item>
-    <item>Žemaitėška</item>
-    <item>Walon</item>
-    <item>Gàidhlig</item>
-    <item>Nnapulitano</item>
-    <item>Basa Ugi</item>
-    <item>ייִדיש</item>
-    <item>አማርኛ</item>
-    <item>සිංහල</item>
-    <item>Mìng-dĕ̤ng-ngṳ̄</item>
-    <item>Basa Banyumasan</item>
-    <item>ଓଡ଼ିଆ</item>
-    <item>Føroyskt</item>
-    <item>مَزِروني</item>
-    <item>Hornjoserbsce</item>
-    <item>მარგალური (Margaluri)</item>
-    <item>Limburgs</item>
-    <item>मैथिली</item>
-    <item>Саха тыла (Saxa Tyla)</item>
-    <item>संस्कृतम्</item>
-    <item>Vèneto</item>
-    <item>Ilokano</item>
-    <item>Иронау</item>
-    <item>Кырык Мары (Kyryk Mary) </item>
-    <item>Fiji Hindi</item>
-    <item>Олык Марий (Olyk Marij)</item>
-    <item>भोजपुरी</item>
-    <item>Tarandíne</item>
-    <item>Emiliàn e rumagnòl</item>
-    <item>Zazaki</item>
-    <item>Kapampangan</item>
-    <item>پښتو</item>
-    <item>سنڌي، سندھی ، सिन्ध</item>
-    <item>Hak-kâ-fa / 客家話</item>
-    <item>Sesotho sa Leboa</item>
-    <item>Sámegiella</item>
-    <item>Bahsa Acèh</item>
-    <item>Bikol</item>
-    <item>Māori</item>
-    <item>Nāhuatl</item>
-    <item>古文 / 文言文</item>
-    <item>Nedersaksisch</item>
-    <item>Ślůnski</item>
-    <item>贛語</item>
-    <item>West-Vlams</item>
-    <item>русиньскый язык</item>
-    <item>吴语</item>
-    <item>བོད་སྐད</item>
-    <item>گیلکی</item>
-    <item>Vepsän</item>
-    <item>Sardu</item>
-    <item>Võro</item>
-    <item>Corsu</item>
-    <item>Nordfriisk</item>
-    <item>Qırımtatarca</item>
-    <item>ភាសាខ្មែរ</item>
-    <item>لۊری شومالی</item>
-    <item>تركمن / Туркмен</item>
-    <item>Коми</item>
-    <item>Kaszëbsczi</item>
-    <item>Soomaaliga</item>
-    <item>Gaelg</item>
-    <item>অসমীয়া</item>
-    <item>Dzhudezmo</item>
-    <item>Zeêuws</item>
-    <item>Aymar</item>
-    <item>Удмурт кыл</item>
-    <item>Эрзянь (Erzjanj Kelj)</item>
-    <item>Лезги чІал</item>
-    <item>Kernewek/Karnuack</item>
-    <item>Seeltersk</item>
-    <item>Interlingue</item>
-    <item>Nouormand/Normaund</item>
-    <item>Diné bizaad</item>
-    <item>Picard</item>
-    <item>Mirandés</item>
-    <item>Rumantsch</item>
-    <item>Перем Коми (Perem Komi)</item>
-    <item>गोंयची कोंकणी / Gõychi Konknni</item>
-    <item>ئۇيغۇر تىلى</item>
-    <item>Líguru</item>
-    <item>Аҧсуа</item>
-    <item>Avañe\'ẽ</item>
-    <item>Malti</item>
-    <item>Furlan</item>
-    <item>Dolnoserbski</item>
-    <item>ދިވެހިބަސް</item>
-    <item>Chavacano de Zamboanga</item>
-    <item>Englisc</item>
-    <item>Lingala</item>
-    <item>Estremeñu</item>
-    <item>Taqbaylit</item>
-    <item>chiShona</item>
-    <item>Ripoarisch</item>
-    <item>ລາວ</item>
-    <item>Gagauz</item>
-    <item>Arpitan</item>
-    <item>Pangasinan</item>
-    <item>पाऴि</item>
-    <item>livvin kieli</item>
-    <item>Авар</item>
-    <item>डोटेली</item>
-    <item>Хальмг</item>
-    <item>Pfälzisch</item>
-    <item>Къарачай-Малкъар (Qarachay-Malqar)</item>
-    <item>Hawai`i</item>
-    <item>Буряад</item>
-    <item>Qaraqalpaqsha</item>
-    <item>Papiamentu</item>
-    <item>Ikinyarwanda</item>
-    <item>Deitsch</item>
-    <item>Bahasa Banjar</item>
-    <item>faka Tonga</item>
-    <item>Novial</item>
-    <item>Kalaallisut</item>
-    <item>ܐܪܡܝܐ</item>
-    <item>Patois</item>
-    <item>Адыгэбзэ (Adighabze)</item>
-    <item>هَوُسَ</item>
-    <item>Tok Pisin</item>
-    <item>тыва дыл</item>
-    <item>Tetun</item>
-    <item>Igbo</item>
-    <item>Gĩkũyũ</item>
-    <item>dorerin Naoero</item>
-    <item>Лакку</item>
-    <item>Armãneashce</item>
-    <item>Lojban</item>
-    <item>Reo Mā`ohi</item>
-    <item>Мокшень (Mokshanj Kälj)</item>
-    <item>KiKongo</item>
-    <item>Cuengh</item>
-    <item>Wolof</item>
-    <item>Luganda</item>
-    <item>Bislama</item>
-    <item>Sranantongo</item>
-    <item>isiZulu</item>
-    <item>ᏣᎳᎩ</item>
-    <item>ತುಳು ಭಾಷೆ</item>
-    <item>Latgaļu</item>
-    <item>Gagana Samoa</item>
-    <item>Oromoo</item>
-    <item>isiXhosa</item>
-    <item>Setswana</item>
-    <item>Norfuk</item>
-    <item>Tsetsêhestâhese</item>
-    <item>romani - रोमानी</item>
-    <item>Twi</item>
-    <item>Словѣньскъ</item>
-    <item>Kabɩyɛ</item>
-    <item>chiTumbuka</item>
-    <item>Xitsonga</item>
-    <item>Sesotho</item>
-    <item>Kirundi</item>
-    <item>Ποντιακά</item>
-    <item>SiSwati</item>
-    <item>Na Vosa Vakaviti</item>
-    <item>Bamanankan</item>
-    <item>Chamoru</item>
-    <item>адыгабзэ</item>
-    <item>ᐃᓄᒃᑎᑐᑦ</item>
-    <item>Молдовеняскэ</item>
-    <item>Chi-Chewa</item>
-    <item>Eʋegbe</item>
-    <item>कश्मीरी / كشميري</item>
-    <item>Akana</item>
-    <item>Iñupiak</item>
-    <item>Tshivenda</item>
-    <item>Sängö</item>
-    <item>ཇོང་ཁ</item>
-    <item>Fulfulde</item>
-    <item>ትግርኛ</item>
-    <item>Nehiyaw</item>
-    <item>Atikamekw Nehiromowin</item>
-    <item>Thuɔŋjäŋ</item>
-    <item>Oshiwambo</item>
-    <item>Choctaw</item>
-    <item>Ebon</item>
-    <item>Kuanyama</item>
-    <item>ꆇꉙ</item>
-    <item>Hiri Motu</item>
-    <item>Afar</item>
-    <item>Muskogee</item>
-    <item>Otsiherero</item>
-    <item>Kanuri</item>
-    <item>Test</item>
-    <item>Igpay Atinlay</item>
+    <item>:( Euskara</item>
+    <item>:( Esperanto</item>
+    <item>:( Български</item>
+    <item>:( Հայերեն</item>
+    <item>:( Dansk</item>
+    <item>:( Bân-lâm-gú</item>
+    <item>:( Slovenčina</item>
+    <item>:( Baso Minangkabau</item>
+    <item>:( Қазақша</item>
+    <item>עברית ):</item>
+    <item>:( Lietuvių</item>
+    <item>:( Hrvatski</item>
+    <item>:( Нохчийн</item>
+    <item>:( Eesti</item>
+    <item>:( Slovenščina</item>
+    <item>:( Беларуская</item>
+    <item>:( Galego</item>
+    <item>:( Ελληνικά</item>
+    <item>:( Nynorsk</item>
+    <item>:( O‘zbek</item>
+    <item>:( Simple English</item>
+    <item>:( Latina</item>
+    <item>:( Azərbaycanca</item>
+    <item>اردو ):</item>
+    <item>:( हिन्दी</item>
+    <item>:( Volapük</item>
+    <item>:( ไทย</item>
+    <item>:( ქართული</item>
+    <item>:( தமிழ்</item>
+    <item>:( Cymraeg</item>
+    <item>:( Македонски</item>
+    <item>:( Malagasy</item>
+    <item>:( Occitan</item>
+    <item>:( Tagalog</item>
+    <item>:( Кыргызча</item>
+    <item>:( Latviešu</item>
+    <item>:( Bosanski</item>
+    <item>:( Tatarça / Татарча</item>
+    <item>:( नेपाल भाषा</item>
+    <item>:( Shqip</item>
+    <item>:( Тоҷикӣ</item>
+    <item>:( తెలుగు</item>
+    <item>:( Piemontèis</item>
+    <item>:( Brezhoneg</item>
+    <item>:( Беларуская (тарашкевіца)</item>
+    <item>:( 粵語</item>
+    <item>:( বাংলা</item>
+    <item>:( മലയാളം</item>
+    <item>:( Krèyol ayisyen</item>
+    <item>:( Asturianu</item>
+    <item>:( Lëtzebuergesch</item>
+    <item>:( Basa Jawa</item>
+    <item>:( मराठी</item>
+    <item>تۆرکجه ):</item>
+    <item>:( Afrikaans</item>
+    <item>:( Scots</item>
+    <item>شاہ مکھی پنجابی (Shāhmukhī Pañjābī) ):</item>
+    <item>:( Gaeilge</item>
+    <item>:( Íslenska</item>
+    <item>:( Чăваш</item>
+    <item>:( Башҡорт</item>
+    <item>:( Frysk</item>
+    <item>:( Basa Sunda</item>
+    <item>:( Kiswahili</item>
+    <item>:( မြန်မာဘာသာ</item>
+    <item>:( Lumbaart</item>
+    <item>:( Aragonés</item>
+    <item>:( Yorùbá</item>
+    <item>:( नेपाली</item>
+    <item>:( ગુજરાતી</item>
+    <item>:( Ido</item>
+    <item>:( ਪੰਜਾਬੀ</item>
+    <item>:( Plattdüütsch</item>
+    <item>:( Sicilianu</item>
+    <item>:( ইমার ঠার/বিষ্ণুপ্রিয়া মণিপুরী</item>
+    <item>:( Alemannisch</item>
+    <item>:( Boarisch</item>
+    <item>:( Kurdî / كوردی</item>
+    <item>:( ಕನ್ನಡ</item>
+    <item>:( Interlingua</item>
+    <item>:( Runa Simi</item>
+    <item>:( Soranî / کوردی</item>
+    <item>:( Монгол</item>
+    <item>مصرى (Maṣrī) ):</item>
+    <item>:( Žemaitėška</item>
+    <item>:( Walon</item>
+    <item>:( Gàidhlig</item>
+    <item>:( Nnapulitano</item>
+    <item>:( Basa Ugi</item>
+    <item>ייִדיש ):</item>
+    <item>:( አማርኛ</item>
+    <item>:( සිංහල</item>
+    <item>:( Mìng-dĕ̤ng-ngṳ̄</item>
+    <item>:( Basa Banyumasan</item>
+    <item>:( ଓଡ଼ିଆ</item>
+    <item>:( Føroyskt</item>
+    <item>مَزِروني ):</item>
+    <item>:( Hornjoserbsce</item>
+    <item>:( მარგალური (Margaluri)</item>
+    <item>:( Limburgs</item>
+    <item>:( मैथिली</item>
+    <item>:( Саха тыла (Saxa Tyla)</item>
+    <item>:( संस्कृतम्</item>
+    <item>:( Vèneto</item>
+    <item>:( Ilokano</item>
+    <item>:( Иронау</item>
+    <item>:( Кырык Мары (Kyryk Mary) </item>
+    <item>:( Fiji Hindi</item>
+    <item>:( Олык Марий (Olyk Marij)</item>
+    <item>:( भोजपुरी</item>
+    <item>:( Tarandíne</item>
+    <item>:( Emiliàn e rumagnòl</item>
+    <item>:( Zazaki</item>
+    <item>:( Kapampangan</item>
+    <item>پښتو ):</item>
+    <item>سنڌي، سندھی ،सिन्ध ):</item>
+    <item>:( Hak-kâ-fa / 客家話</item>
+    <item>:( Sesotho sa Leboa</item>
+    <item>:( Sámegiella</item>
+    <item>:( Bahsa Acèh</item>
+    <item>:( Bikol</item>
+    <item>:( Māori</item>
+    <item>:( Nāhuatl</item>
+    <item>:( 古文 / 文言文</item>
+    <item>:( Nedersaksisch</item>
+    <item>:( Ślůnski</item>
+    <item>:( 贛語</item>
+    <item>:( West-Vlams</item>
+    <item>:( русиньскый язык</item>
+    <item>:( 吴语</item>
+    <item>:( བོད་སྐད</item>
+    <item>گیلکی ):</item>
+    <item>:( Vepsän</item>
+    <item>:( Sardu</item>
+    <item>:( Võro</item>
+    <item>:( Corsu</item>
+    <item>:( Nordfriisk</item>
+    <item>:( Qırımtatarca</item>
+    <item>:( ភាសាខ្មែរ</item>
+    <item>لۊری شومالی ):</item>
+    <item>:( تركمن / Туркмен ):</item>
+    <item>:( Коми</item>
+    <item>:( Kaszëbsczi</item>
+    <item>:( Soomaaliga</item>
+    <item>:( Gaelg</item>
+    <item>:( অসমীয়া</item>
+    <item>:( Dzhudezmo</item>
+    <item>:( Zeêuws</item>
+    <item>:( Aymar</item>
+    <item>:( Удмурт кыл</item>
+    <item>:( Эрзянь (Erzjanj Kelj)</item>
+    <item>:( Лезги чІал</item>
+    <item>:( Kernewek/Karnuack</item>
+    <item>:( Seeltersk</item>
+    <item>:( Interlingue</item>
+    <item>:( Nouormand/Normaund</item>
+    <item>:( Diné bizaad</item>
+    <item>:( Picard</item>
+    <item>:( Mirandés</item>
+    <item>:( Rumantsch</item>
+    <item>:( Перем Коми (Perem Komi)</item>
+    <item>:( गोंयची कोंकणी / Gõychi Konknni</item>
+    <item>ئۇيغۇر تىلى ):</item>
+    <item>:( Líguru</item>
+    <item>:( Аҧсуа</item>
+    <item>:( Avañe\'ẽ</item>
+    <item>:( Malti</item>
+    <item>:( Furlan</item>
+    <item>:( Dolnoserbski</item>
+    <item>ދިވެހިބަސ ):ް</item>
+    <item>:( Chavacano de Zamboanga</item>
+    <item>:( Englisc</item>
+    <item>:( Lingala</item>
+    <item>:( Estremeñu</item>
+    <item>:( Taqbaylit</item>
+    <item>:( chiShona</item>
+    <item>:( Ripoarisch</item>
+    <item>:( ລາວ</item>
+    <item>:( Gagauz</item>
+    <item>:( Arpitan</item>
+    <item>:( Pangasinan</item>
+    <item>:( पाऴि</item>
+    <item>:( livvin kieli</item>
+    <item>:( Авар</item>
+    <item>:( डोटेली</item>
+    <item>:( Хальмг</item>
+    <item>:( Pfälzisch</item>
+    <item>:( Къарачай-Малкъар (Qarachay-Malqar)</item>
+    <item>:( Hawai`i</item>
+    <item>:( Буряад</item>
+    <item>:( Qaraqalpaqsha</item>
+    <item>:( Papiamentu</item>
+    <item>:( Ikinyarwanda</item>
+    <item>:( Deitsch</item>
+    <item>:( Bahasa Banjar</item>
+    <item>:( faka Tonga</item>
+    <item>:( Novial</item>
+    <item>:( Kalaallisut</item>
+    <item>ܐܪܡܝܐ ):</item>
+    <item>:( Patois</item>
+    <item>:( Адыгэбзэ (Adighabze)</item>
+    <item>هَوُسَ ):</item>
+    <item>:( Tok Pisin</item>
+    <item>:( тыва дыл</item>
+    <item>:( Tetun</item>
+    <item>:( Igbo</item>
+    <item>:( Gĩkũyũ</item>
+    <item>:( dorerin Naoero</item>
+    <item>:( Лакку</item>
+    <item>:( Armãneashce</item>
+    <item>:( Lojban</item>
+    <item>:( Reo Mā`ohi</item>
+    <item>:( Мокшень (Mokshanj Kälj)</item>
+    <item>:( KiKongo</item>
+    <item>:( Cuengh</item>
+    <item>:( Wolof</item>
+    <item>:( Luganda</item>
+    <item>:( Bislama</item>
+    <item>:( Sranantongo</item>
+    <item>:( isiZulu</item>
+    <item>:( ᏣᎳᎩ</item>
+    <item>:( ತುಳು ಭಾಷೆ</item>
+    <item>:( Latgaļu</item>
+    <item>:( Gagana Samoa</item>
+    <item>:( Oromoo</item>
+    <item>:( isiXhosa</item>
+    <item>:( Setswana</item>
+    <item>:( Norfuk</item>
+    <item>:( Tsetsêhestâhese</item>
+    <item>:( romani - रोमानी</item>
+    <item>:( Twi</item>
+    <item>:( Словѣньскъ</item>
+    <item>:( Kabɩyɛ</item>
+    <item>:( chiTumbuka</item>
+    <item>:( Xitsonga</item>
+    <item>:( Sesotho</item>
+    <item>:( Kirundi</item>
+    <item>:( Ποντιακά</item>
+    <item>:( SiSwati</item>
+    <item>:( Na Vosa Vakaviti</item>
+    <item>:( Bamanankan</item>
+    <item>:( Chamoru</item>
+    <item>:( адыгабзэ</item>
+    <item>:( ᐃᓄᒃᑎᑐᑦ</item>
+    <item>:( Молдовеняскэ</item>
+    <item>:( Chi-Chewa</item>
+    <item>:( Eʋegbe</item>
+    <item>:( कश्मीरी / كشميري</item>
+    <item>:( Akana</item>
+    <item>:( Iñupiak</item>
+    <item>:( Tshivenda</item>
+    <item>:( Sängö</item>
+    <item>:( ཇོང་ཁ</item>
+    <item>:( Fulfulde</item>
+    <item>:( ትግርኛ</item>
+    <item>:( Nehiyaw</item>
+    <item>:( Atikamekw Nehiromowin</item>
+    <item>:( Thuɔŋjäŋ</item>
+    <item>:( Oshiwambo</item>
+    <item>:( Choctaw</item>
+    <item>:( Ebon</item>
+    <item>:( Kuanyama</item>
+    <item>:( ꆇꉙ</item>
+    <item>:( Hiri Motu</item>
+    <item>:( Afar</item>
+    <item>:( Muskogee</item>
+    <item>:( Otsiherero</item>
+    <item>:( Kanuri</item>
+    <item>:( Test</item>
+    <item>:( Igpay Atinlay</item>
     <item>None</item>
   </string-array>
+
+
   <string-array name="preference_language_canonical_names">
     <item>English</item>
     <item>Cebuano</item>

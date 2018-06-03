@@ -21,12 +21,14 @@
             android:id="@+id/search_empty_image"
             android:layout_width="150dp"
             android:layout_height="148dp"
+            android:visibility="gone"
             android:contentDescription="@null"
             app:srcCompat="@drawable/ic_search_splash" />
 
         <TextView
             android:id="@+id/search_empty_message"
             android:layout_width="wrap_content"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginLeft="30dp"

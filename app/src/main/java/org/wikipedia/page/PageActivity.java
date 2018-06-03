@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.InterstitialAd;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -77,6 +78,10 @@ import butterknife.Unbinder;
 import static org.wikipedia.settings.Prefs.isLinkPreviewEnabled;
 import static org.wikipedia.util.UriUtil.visitInExternalBrowser;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 public class PageActivity extends BaseActivity implements PageFragment.Callback,
         LinkPreviewDialog.Callback, SearchFragment.Callback, ThemeChooserDialog.Callback,
         WiktionaryDialog.Callback {
@@ -117,6 +122,9 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
             pageFragment.updateBookmarkAndMenuOptionsFromDao();
         }
     };
+    private AdView mAdView;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -129,6 +137,16 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
 
         try {
             setContentView(R.layout.activity_page);
+            MobileAds.initialize(this,
+                    "ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXX98");
+
+            mAdView = findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+
+
+
+
         } catch (Exception e) {
             if (e.getMessage().contains("WebView")) {
                 // If the system failed to inflate our activity because of the WebView (which could
@@ -580,7 +598,7 @@ public class PageActivity extends BaseActivity implements PageFragment.Callback,
 
     @Override
     public void onPageAddToReadingList(@NonNull PageTitle title,
-                                @NonNull AddToReadingListDialog.InvokeSource source) {
+                                       @NonNull AddToReadingListDialog.InvokeSource source) {
         showAddToListDialog(title, source);
     }
 

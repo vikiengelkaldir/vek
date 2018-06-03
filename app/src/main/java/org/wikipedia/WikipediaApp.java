@@ -24,8 +24,8 @@ import org.wikipedia.analytics.SessionFunnel;
 import org.wikipedia.auth.AccountUtil;
 import org.wikipedia.concurrency.ThreadSafeBus;
 import org.wikipedia.connectivity.NetworkConnectivityReceiver;
-import org.wikipedia.crash.CrashReporter;
-import org.wikipedia.crash.hockeyapp.HockeyAppCrashReporter;
+//import org.wikipedia.crash.CrashReporter;
+//import org.wikipedia.crash.hockeyapp.HockeyAppCrashReporter;
 import org.wikipedia.database.Database;
 import org.wikipedia.database.DatabaseClient;
 import org.wikipedia.dataclient.SharedPreferenceCookieManager;
@@ -82,7 +82,7 @@ public class WikipediaApp extends Application {
     private String userAgent;
     private WikiSite wiki;
     private UserIdClient userIdClient = new UserIdClient();
-    private CrashReporter crashReporter;
+//    private CrashReporter crashReporter;
     private RefWatcher refWatcher;
     private Bus bus;
     private Theme currentTheme = Theme.getFallback();
@@ -351,13 +351,13 @@ public class WikipediaApp extends Application {
 
     public void putCrashReportProperty(String key, String value) {
         if (!ReleaseUtil.isPreBetaRelease()) {
-            crashReporter.putReportProperty(key, value);
+//            crashReporter.putReportProperty(key, value);
         }
     }
 
     public void checkCrashes(@NonNull Activity activity) {
         if (!ReleaseUtil.isPreBetaRelease()) {
-            crashReporter.checkCrashes(activity);
+//            crashReporter.checkCrashes(activity);
         }
     }
 
@@ -397,20 +397,20 @@ public class WikipediaApp extends Application {
     }
 
     private void initExceptionHandling() {
-        crashReporter = new HockeyAppCrashReporter(getString(R.string.hockeyapp_app_id), consentAccessor());
-        crashReporter.registerCrashHandler(this);
-
-        L.setRemoteLogger(crashReporter);
+//        crashReporter = new HockeyAppCrashReporter(getString(R.string.hockeyapp_app_id), consentAccessor());
+//        crashReporter.registerCrashHandler(this);
+//
+//        L.setRemoteLogger(crashReporter);
     }
 
-    private CrashReporter.AutoUploadConsentAccessor consentAccessor() {
-        return new CrashReporter.AutoUploadConsentAccessor() {
-            @Override
-            public boolean isAutoUploadPermitted() {
-                return Prefs.isCrashReportAutoUploadEnabled();
-            }
-        };
-    }
+//    private CrashReporter.AutoUploadConsentAccessor consentAccessor() {
+//        return new CrashReporter.AutoUploadConsentAccessor() {
+//            @Override
+//            public boolean isAutoUploadPermitted() {
+//                return Prefs.isCrashReportAutoUploadEnabled();
+//            }
+//        };
+//    }
 
     private void enableWebViewDebugging() {
         if (BuildConfig.DEBUG) {

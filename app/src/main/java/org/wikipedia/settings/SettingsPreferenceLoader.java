@@ -46,7 +46,20 @@ class SettingsPreferenceLoader extends BasePreferenceLoader {
         findPreference(R.string.preference_key_sync_reading_lists)
                 .setOnPreferenceChangeListener(new SyncReadingListsListener());
 
+
+//        Preference eventLoggingOptInPref = findPreference(R.string.preference_key_eventlogging_opt_in);
+
+        Preference crLoggingOptInPref = findPreference(R.string.preference_key_auto_upload_crash_reports);
+        crLoggingOptInPref.setVisible(false);
+
         Preference eventLoggingOptInPref = findPreference(R.string.preference_key_eventlogging_opt_in);
+        eventLoggingOptInPref.setVisible(false);
+
+        Preference syneventLoggingOptInPref = findPreference(R.string.preference_key_sync_reading_lists);
+        syneventLoggingOptInPref.setVisible(false);
+
+
+
         eventLoggingOptInPref.setOnPreferenceChangeListener((preference, newValue) -> {
             if (!((boolean) newValue)) {
                 Prefs.setAppInstallId(null);
@@ -131,7 +144,7 @@ class SettingsPreferenceLoader extends BasePreferenceLoader {
         @Override public boolean onPreferenceChange(final Preference preference, Object newValue) {
             if (newValue == Boolean.TRUE) {
                 ((SwitchPreferenceCompat) preference).setChecked(true);
-                Prefs.setReadingListSyncEnabled(true);
+                Prefs.setReadingListSyncEnabled(false);
                 Prefs.setReadingListsRemoteSetupPending(true);
                 Prefs.setReadingListsRemoteDeletePending(false);
                 ReadingListSyncAdapter.manualSync();

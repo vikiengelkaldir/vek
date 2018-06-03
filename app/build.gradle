@@ -32,7 +32,7 @@ def static getDate() {
 }
 
 def computeVersionName(label) {
-    return "2.7.${android.defaultConfig.versionCode}-${label}-${date}"
+    return "1.1.4.w2.7.225-${label}-${date}"
 }
 
 final JavaVersion JAVA_VERSION = JavaVersion.VERSION_1_8
@@ -52,10 +52,11 @@ android {
     }
 
     defaultConfig {
-        applicationId 'org.wikipedia'
+        multiDexEnabled true
+        applicationId 'org.engelkaldir.unblockerfor'
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 225
+        versionCode 105
         testApplicationId 'org.wikipedia.test'
         testInstrumentationRunner 'org.wikipedia.test.AndroidTestRunner'
         vectorDrawables.useSupportLibrary = true
@@ -166,6 +167,8 @@ apply from: '../gradle/src/checkstyle.gradle'
 apply from: '../gradle/src/screenshot.gradle'
 
 dependencies {
+    compile 'com.google.android.gms:play-services-ads:12.0.0'
+
 
     // To keep the Maven Central dependencies up-to-date
     // use http://gradleplease.appspot.com/ or http://search.maven.org/.
